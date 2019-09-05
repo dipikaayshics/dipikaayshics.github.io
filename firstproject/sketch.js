@@ -12,4 +12,6 @@ function setup() {
 
 function draw() {
   background(220);
+  Fill(0);
+  ell
 }
