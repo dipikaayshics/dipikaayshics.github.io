@@ -9,8 +9,8 @@ let tree;
 let bgImage;
 let apple;
 let plate;
-let x = width/2;
-let y = height/2;
+let x;
+let y;
 let radius = 100;
 
 function preload(){
@@ -27,8 +27,11 @@ function setup() {
 }
 
 function draw() {
-  //bounceball();
+  bouncetree();
 
 }
-funtion 
+function bouncetree(){
+
+  
+}
 
