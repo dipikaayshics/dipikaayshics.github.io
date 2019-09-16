@@ -7,10 +7,13 @@
 
 let tree;
 let bgImage;
-let scaler = 1;
+let apple;
+let plate;
 function preload(){
   tree = loadImage("assets/tree.png");
   bgImage = loadImage("assets/bgImage.jpg");
+  plate = loadImage("assets/plate.png");
+  apple = loadImage("assets/apple.png");
 
 }
 
@@ -20,24 +23,12 @@ function setup() {
 }
 
 function draw() {
-  if (keyIsPressed){
-    if (keyCode === UP_ARROW){
-      //  increase image size
-      scaler*= 1.01;
   
-    }
-    else if (keyCode === DOWN_ARROW){
-      // decrease image size
-      scaler /= 1.01;
-    }
-  }
 
-  imageMode(CENTER);
-  image(tree, mouseX, mouseY, tree.width * scaler, tree.height *scaler)
+
 
   
-  
+   
 }
-imageMode(CENTER)
 
 
