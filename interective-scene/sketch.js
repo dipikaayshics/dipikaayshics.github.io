@@ -9,6 +9,10 @@ let tree;
 let bgImage;
 let apple;
 let plate;
+let x = width/2;
+let y = height/2;
+let radius = 100;
+
 function preload(){
   tree = loadImage("assets/tree.png");
   bgImage = loadImage("assets/bgImage.jpg");
@@ -23,12 +27,8 @@ function setup() {
 }
 
 function draw() {
-  
+  //bounceball();
 
-
-
-  
-   
 }
-
+funtion 
 
