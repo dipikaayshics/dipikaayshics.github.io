@@ -6,18 +6,20 @@
 // - describe what you did to take this project "above and beyond"
 
 let tree;
+let bgImage;
 let scaler = 1;
 function preload(){
   tree = loadImage("assets/tree.png");
+  bgImage = loadImage("assets/bgImage.jpg");
 
 }
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  background(bgImage);
 }
 
 function draw() {
-  background("tree");
   if (keyIsPressed){
     if (keyCode === UP_ARROW){
       //  increase image size
