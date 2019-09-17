@@ -1,7 +1,7 @@
 // Project Title
 // dipika
 // sept 9
-let mode= "rectangle";
+let mode= "circle";
 let x;
 let y;
 let dx; // dx = change in x
