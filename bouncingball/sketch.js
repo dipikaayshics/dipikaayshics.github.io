@@ -58,7 +58,7 @@ function draw() {
 function moveshape() {
   x += dx;
   y += dy;
-  
 }
+
   
   
