@@ -31,7 +31,7 @@ let appleY_9 = treeY;
 let appleY_10 = treeY;
 
 function preload(){
-  tree = loadImage("assets/tree.png");
+  tree = loadImage("assets/tree.png");                                  
   bgImage = loadImage("assets/bgImage.jpg");
   plate = loadImage("assets/plate.png");
   apple = loadImage("assets/apple.png");
@@ -40,7 +40,6 @@ function preload(){
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  background(bgImage);
 
   x = width/2;
   y = height/2;
@@ -48,6 +47,9 @@ function setup() {
   dx = random (10, 50);
 }
 function draw() {
+  imageMode(CORNER);
+  background(bgImage);
+
   displayTree();
   bouncetree();
   time();
@@ -89,19 +91,20 @@ function movingBasket() {
     }
   }
 
-  function movingApple (){
-    nostroke()
-    imageMode(CENTER);
+function movingApple (){
+
+  
+  imageMode(CENTER);
 // all the apples
-    image (apple, 10, appleY_0, appleSize, appleSize);
-    image (apple, 100, appleY_1, appleSize, appleSize);
-    image (apple, 200, appleY_2, appleSize, appleSize);
-    image (apple, 300, appleY_3, appleSize, appleSize);
-    image (apple, 400, appleY_4, appleSize, appleSize);
-    
-    appleY_0 += 20;
-    appleY_1 += 10;
-    appleY_2 += 10;
+  image (apple, 10, appleY_0, appleSize, appleSize);
+  image (apple, 100, appleY_1, appleSize, appleSize);
+  image (apple, 200, appleY_2, appleSize, appleSize);
+  image (apple, 300, appleY_3, appleSize, appleSize);
+  image (apple, 400, appleY_4, appleSize, appleSize);
+  
+  appleY_0 += 20;
+  appleY_1 += 10;
+  appleY_2 += 10;
 
 
 }
