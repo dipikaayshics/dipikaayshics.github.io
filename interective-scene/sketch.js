@@ -12,14 +12,14 @@ let apple;
 let plate;
 let x;
 let y;
-let treesize = 400;
+let treesize = 800;
 let appleSize = 50;
 let dx;
 let dy;
 let treeY = 300;
 let appleY = [200, 180, 150, 240, 220, 240, 248, 250];
-let busketX = 780;
-let busketY = 780;
+let busketX;
+let busketY = 750;
 
 
 // let appleY_0 = treeY;
@@ -49,15 +49,17 @@ function setup() {
   y = height/2;
   dx = random (10, 50);
   dx = random (10, 50);
+  busketX = width/2;
 }
 function draw() {
   imageMode(CORNER);
   background(bgImage);
 
   displayTree();
-  bouncetree();
+  //bouncetree();
   time();
-  movingApple();
+  repeatingMA();
+  
   movingBasket()
   
 
@@ -66,7 +68,7 @@ function draw() {
 function displayTree(){
   noStroke();
   imageMode(CENTER);
-  image(tree, x, treeY, treesize, treesize);
+  image(tree, x, treeY, 1000, treesize);
 }
 
 //tree bouncing off one wall to another
@@ -93,27 +95,24 @@ function time (){
 }
 
 function movingBasket() {
+
+  if (keyIsDown(LEFT_ARROW)){
+    busketX = busketX - 10;
+  } else if (keyIsDown(RIGHT_ARROW)) {
+    busketX = busketX + 10;
+  }
   noStroke();
   imageMode(CENTER);
   image(busket, busketX, busketY, 100, 100);
-  keyPressed()
+  
 }
   
-function keyPressed() {
-  if (keyCode === LEFT_ARROW) {
-    x = x - 5;
-  } else if (keyCode === RIGHT_ARROW) {
-    x = x + 5;
-  }
-
-    
-  }
 
 function movingApple (){
   noStroke();
   
   for (var i = 0; i < appleY.length; i++) {
-    image(apple, (i+0.5)*200, appleY[i], appleSize, appleSize);
+    image(apple, (i+5)*100, appleY[i], appleSize, appleSize);
     appleY[i] += 6;
   }
 // all the apples
@@ -128,10 +127,16 @@ function movingApple (){
   // appleY_2 += 7;
   // appleY_3 += 4;
   // appleY_4 += 8;
-
-
 }
+function repeatingMA(){
+  if (millis() < 10000){
+    movingApple();
+  
 
+
+  }
+  
+}
 
 
 
