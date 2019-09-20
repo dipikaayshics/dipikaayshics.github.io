@@ -110,9 +110,11 @@ function movingBasket() {
 
 function movingApple (){
   noStroke();
+
   
-  for (var i = 0; i < appleY.length; i++) {
-    image(apple, (i+5)*100, appleY[i], appleSize, appleSize);
+  for (let i = 0; i < appleY.length; i++) {
+    let appleX = (i+5)*100;
+    image(apple, appleX, appleY[i], appleSize, appleSize);
     appleY[i] += 6;
   }
 // all the apples
