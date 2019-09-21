@@ -6,14 +6,16 @@
 // - describe what you did to take this project "above and beyond"
 
 // all the variables
-let tree;
 let bgImage;
+let tree;
 let apple;
 let plate;
 let x;
 let y;
 let treesize = 800;
 let appleSize = 50;
+let busketSize = 100;
+let birdSize = 120;
 let dx;
 let dy;
 let treeY = 300;
@@ -21,6 +23,18 @@ let appleY = [200, 180, 150, 240, 220, 240, 248, 250];
 let busketX;
 let busketY = 750;
 
+// all the apples
+  // image (apple, 100, appleY_0, appleSize, appleSize);
+  // image (apple, 200, appleY_1, appleSize, appleSize);
+  // image (apple, 300, appleY_2, appleSize, appleSize);
+  // image (apple, 400, appleY_3, appleSize, appleSize);
+  // image (apple, 500, appleY_4, appleSize, appleSize);
+  
+  // appleY_0 += 5;
+  // appleY_1 += 6;
+  // appleY_2 += 7;
+  // appleY_3 += 4;
+  // appleY_4 += 8;
 
 // let appleY_0 = treeY;
 // let appleY_1 = treeY;
@@ -39,7 +53,7 @@ function preload(){
   bgImage = loadImage("assets/bgImage.jpg");
   busket = loadImage("assets/plate.png");
   apple = loadImage("assets/apple.png");
-
+  bird = loadImage("assets/bird.png");
 }
 
 function setup() {
@@ -48,7 +62,7 @@ function setup() {
   x = width/2;
   y = height/2;
   dx = random (10, 50);
-  dx = random (10, 50);
+  dy = random (10, 50);
   busketX = width/2;
 }
 function draw() {
@@ -56,30 +70,36 @@ function draw() {
   background(bgImage);
 
   displayTree();
-  //bouncetree();
+  displayBird();
+  flyingBird();
   time();
   repeatingMA();
   
   movingBasket()
   
-
 }
+
 //showup the tree
 function displayTree(){
   noStroke();
   imageMode(CENTER);
   image(tree, x, treeY, 1000, treesize);
 }
+function displayBird(){
+  noStroke();
+  imageMode(CENTER);
+  image(bird, x, tree, birdSize, birdSize);
+}
 
-//tree bouncing off one wall to another
-function bouncetree(){
-  moveshape();
-  if (x > width - treesize/2 || x < treesize/2){
+//bird flying around the tree
+function flyingBird(){
+  birdspeed();
+  if (x > width - birdSize/2 || x < birdSize/2){
     dx *= -1  
   }
 }
 //moving the tree in a speed
-function moveshape() {
+function birdspeed() {
   x += dx;
   y += dy;
 }
@@ -103,7 +123,7 @@ function movingBasket() {
   }
   noStroke();
   imageMode(CENTER);
-  image(busket, busketX, busketY, 100, 100);
+  image(busket, busketX, busketY, busketSize, busketSize);
   
 }
   
@@ -113,22 +133,11 @@ function movingApple (){
 
   
   for (let i = 0; i < appleY.length; i++) {
-    let appleX = (i+5)*100;
+    let appleX = (i+4)*100;
     image(apple, appleX, appleY[i], appleSize, appleSize);
     appleY[i] += 6;
   }
-// all the apples
-  // image (apple, 100, appleY_0, appleSize, appleSize);
-  // image (apple, 200, appleY_1, appleSize, appleSize);
-  // image (apple, 300, appleY_2, appleSize, appleSize);
-  // image (apple, 400, appleY_3, appleSize, appleSize);
-  // image (apple, 500, appleY_4, appleSize, appleSize);
-  
-  // appleY_0 += 5;
-  // appleY_1 += 6;
-  // appleY_2 += 7;
-  // appleY_3 += 4;
-  // appleY_4 += 8;
+
 }
 function repeatingMA(){
   if (millis() < 10000){
