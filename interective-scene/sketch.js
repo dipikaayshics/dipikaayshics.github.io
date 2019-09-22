@@ -93,9 +93,15 @@ function movingBasket() {
 
 function movingApple (){
   noStroke();
+<<<<<<< HEAD
   for (let i = 0; i < appleY.length; i++) {
     let appleX = (i+5)*100;
     image(apple, appleX, appleY[i], appleSize, appleSize);
+=======
+  
+  for (var i = 0; i < appleY.length; i++) {
+    image(apple, (i+5)*100, appleY[i], appleSize, appleSize);
+>>>>>>> parent of 2b4abef... for the apple tiucing busket
     appleY[i] += 6;
 
 }
