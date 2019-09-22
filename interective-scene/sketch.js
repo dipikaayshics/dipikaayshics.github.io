@@ -12,7 +12,7 @@ let apple;
 let plate;
 let x;
 let y;
-let treesize = 800;
+let treesize = 400;
 let appleSize = 50;
 let busketSize = 100;
 let birdSize = 120;
@@ -20,8 +20,8 @@ let dx;
 let dy;
 let birdY = 300;
 let appleY = [200, 180, 150, 240, 220, 240, 248, 250];
-let busketX;
-let busketY = 750;
+let busketX = 780;
+let busketY = 780;
 
 // all the apples
   // image (apple, 100, appleY_0, appleSize, appleSize);
@@ -62,19 +62,26 @@ function setup() {
   x = width/2;
   y = height/2;
   dx = random (10, 50);
+<<<<<<< HEAD
   dy = random (10, 50);
   busketX = width/2;
+=======
+  dx = random (10, 50);
+>>>>>>> parent of b75d31f... my busket works
 }
 function draw() {
   imageMode(CORNER);
   background(bgImage);
 
   displayTree();
+<<<<<<< HEAD
   displayBird();
   flyingBird();
+=======
+  bouncetree();
+>>>>>>> parent of b75d31f... my busket works
   time();
-  repeatingMA();
-  
+  movingApple();
   movingBasket()
   
 }
@@ -83,12 +90,16 @@ function draw() {
 function displayTree(){
   noStroke();
   imageMode(CENTER);
+<<<<<<< HEAD
   image(tree, x, 300, 1000, treesize);
 }
 function displayBird(){
   noStroke();
   imageMode(CENTER);
   image(bird, x, birdY, birdSize, birdSize);
+=======
+  image(tree, x, treeY, treesize, treesize);
+>>>>>>> parent of b75d31f... my busket works
 }
 
 //bird flying around the tree
@@ -115,18 +126,26 @@ function time (){
 }
 
 function movingBasket() {
-
-  if (keyIsDown(LEFT_ARROW)){
-    busketX = busketX - 10;
-  } else if (keyIsDown(RIGHT_ARROW)) {
-    busketX = busketX + 10;
-  }
   noStroke();
   imageMode(CENTER);
+<<<<<<< HEAD
   image(busket, busketX, busketY, busketSize, busketSize);
   
+=======
+  image(busket, busketX, busketY, 100, 100);
+  keyPressed()
+>>>>>>> parent of b75d31f... my busket works
 }
   
+function keyPressed() {
+  if (keyCode === LEFT_ARROW) {
+    x = x - 5;
+  } else if (keyCode === RIGHT_ARROW) {
+    x = x + 5;
+  }
+
+    
+  }
 
 function movingApple (){
   noStroke();
@@ -137,6 +156,7 @@ function movingApple (){
     image(apple, appleX, appleY[i], appleSize, appleSize);
 =======
   for (var i = 0; i < appleY.length; i++) {
+<<<<<<< HEAD
     image(apple, (i+5)*100, appleY[i], appleSize, appleSize);
 >>>>>>> parent of 2b4abef... for the apple tiucing busket
     appleY[i] += 6;
@@ -145,7 +165,27 @@ function movingApple (){
 }
 function hits(){
   
+=======
+    image(apple, (i+0.5)*200, appleY[i], appleSize, appleSize);
+    appleY[i] += 6;
+  }
+// all the apples
+  // image (apple, 100, appleY_0, appleSize, appleSize);
+  // image (apple, 200, appleY_1, appleSize, appleSize);
+  // image (apple, 300, appleY_2, appleSize, appleSize);
+  // image (apple, 400, appleY_3, appleSize, appleSize);
+  // image (apple, 500, appleY_4, appleSize, appleSize);
+  
+  // appleY_0 += 5;
+  // appleY_1 += 6;
+  // appleY_2 += 7;
+  // appleY_3 += 4;
+  // appleY_4 += 8;
+
+
+>>>>>>> parent of b75d31f... my busket works
 }
+
 
 
 
