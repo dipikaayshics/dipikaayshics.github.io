@@ -18,7 +18,7 @@ let busketSize = 100;
 let birdSize = 120;
 let dx;
 let dy;
-let treeY = 300;
+let birdY = 300;
 let appleY = [200, 180, 150, 240, 220, 240, 248, 250];
 let busketX;
 let busketY = 750;
@@ -83,12 +83,12 @@ function draw() {
 function displayTree(){
   noStroke();
   imageMode(CENTER);
-  image(tree, x, treeY, 1000, treesize);
+  image(tree, x, 300, 1000, treesize);
 }
 function displayBird(){
   noStroke();
   imageMode(CENTER);
-  image(bird, x, tree, birdSize, birdSize);
+  image(bird, x, birdY, birdSize, birdSize);
 }
 
 //bird flying around the tree
@@ -139,13 +139,7 @@ function movingApple (){
   }
 
 }
-function repeatingMA(){
-  if (millis() < 10000){
-    movingApple();
-  
-
-
-  }
+function hits(){
   
 }
 
