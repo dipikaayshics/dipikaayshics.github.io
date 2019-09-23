@@ -115,6 +115,8 @@ function gameexplain(){
   text(rules, 10, 100, 500, 400);
 }
 
+
+
 //function showscore(){
   //if (score >= 0){
    // text('Score' score, 50, 30)
