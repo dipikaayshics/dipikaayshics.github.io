@@ -23,7 +23,7 @@ let appleY = [200, 180, 150, 240, 220, 240, 248, 250];
 let busketX = 780;
 let busketY = 700;
 let score = 0;
-let rules = 'Use the left and right arrow key to move the busket and get the busket by touching it!! Click on the restart button to restart';
+let rules = 'Use the left and right arrow key to move the busket and get the apple by touching it!! Click on the restart button to restart';
 
 function preload(){
   tree = loadImage("assets/tree.png");                                  
@@ -90,7 +90,7 @@ function movingBasket() {
     else if (keyCode === RIGHT_ARROW) {
       busketX = busketX + 5;
     }
-  
+  }
 }
 
 function movingApple (){
@@ -114,15 +114,23 @@ function gameexplain(){
   fill(245);
   text(rules, 10, 100, 500, 400);
 }
+
+//function showscore(){
+  //if (score >= 0){
+   // text('Score' score, 50, 30)
+
+  //}
+
+
 //function restart(){
-  //if (mouseClicked()){
+  //if (mouseClicked()){                                                                                                    
     //if ()
 
 
   //}
-}
 
-//function sound()
+
+//function sound() res4ert a p[icture with button click
 //function stop() with millis
 //function showscore()
  
