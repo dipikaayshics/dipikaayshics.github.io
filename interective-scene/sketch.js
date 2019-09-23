@@ -15,20 +15,22 @@ let y;
 let treesize = 400;
 let appleSize = 50;
 let busketSize = 100;
-let birdSize = 120;
+let resetSize = 120;
 let dx;
 let dy;
-let birdY = 300;
+let resetY = 300;
 let appleY = [200, 180, 150, 240, 220, 240, 248, 250];
 let busketX = 780;
-let busketY = 780;
+let busketY = 700;
+let score = 0;
+let rules = 'Use the left and right arrow key to move the busket and get the busket by touching it!! Click on the restart button to restart';
 
 function preload(){
   tree = loadImage("assets/tree.png");                                  
   bgImage = loadImage("assets/bgImage.jpg");
   busket = loadImage("assets/plate.png");
   apple = loadImage("assets/apple.png");
-  bird = loadImage("assets/bird.png");
+  reset = loadImage("assets/reset.png");
 }
 
 function setup() {
@@ -43,13 +45,14 @@ function setup() {
 function draw() {
   imageMode(CORNER);
   background(bgImage);
+  //gameexplain();
 
   displayTree();
-  displayBird();
-  flyingBird();
+  //displayreset();
   time();
   movingApple();
-  movingBasket()
+  movingBasket();
+  appleshitsbusket();
   
 }
 
@@ -57,22 +60,21 @@ function draw() {
 function displayTree(){
   noStroke();
   imageMode(CENTER);
-  image(tree, x, 300, 1000, treesize);
+  image(tree, x, y, 800, 850);
 }
-function displayBird(){
+
+function displayreset(){
   noStroke();
   imageMode(CENTER);
-  image(bird, x, birdY, birdSize, birdSize);
+  image(reset, x, resetY, resetSize, resetSize);
 }
 
-
-
 function time (){
-  var s = second();
-  textSize(20);
+  let s = second();
+  textSize(30);
   frameRate(20);
   fill(0, 102, 153);
-
+  let timimg = 
   text('Time: \n' + s, 5, 50);
   
 }
@@ -81,28 +83,48 @@ function movingBasket() {
   noStroke();
   imageMode(CENTER);
   image(busket, busketX, busketY, busketSize, busketSize);
+  if (keyIsPressed){
+    if (keyCode === LEFT_ARROW) {
+      busketX = busketX - 5;
+    }
+    else if (keyCode === RIGHT_ARROW) {
+      busketX = busketX + 5;
+    }
   
-  if (keyCode === LEFT_ARROW) {
-    x = x - 5;
-  } else if (keyCode === RIGHT_ARROW) {
-    x = x + 5;
-  }
-
-    
-  }
+}
 
 function movingApple (){
   noStroke();
-<<<<<<< HEAD
   for (let i = 0; i < appleY.length; i++) {
     let appleX = (i+5)*100;
     image(apple, appleX, appleY[i], appleSize, appleSize);
-=======
-  
-  for (var i = 0; i < appleY.length; i++) {
-    image(apple, (i+5)*100, appleY[i], appleSize, appleSize);
->>>>>>> parent of 2b4abef... for the apple tiucing busket
     appleY[i] += 6;
+}
+}
 
+function appleshitsbuscket(){
+  if (appleX > busketX - busketSize && appleX < busketX + busketSize 
+    && appleY > busketX - busketSize && appleY < busketY + busketSize);{
+    score ++;
+    appleY = 200;
+  }
 }
+
+function gameexplain(){
+  fill(245);
+  text(rules, 10, 100, 500, 400);
 }
+//function restart(){
+  //if (mouseClicked()){
+    //if ()
+
+
+  //}
+}
+
+//function sound()
+//function stop() with millis
+//function showscore()
+ 
+  
+
