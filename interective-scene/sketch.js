@@ -16,14 +16,19 @@ let treesize = 400;
 let appleSize = 50;
 let busketSize = 100;
 let resetSize = 120;
+let startW = 200;
+let startH = 100;
 let dx;
 let dy;
-let resetY = 300;
-let appleY = [200, 180, 150, 240, 220, 240, 248, 250];
+let resetX;
+resetY = 100;
+let startX;
+let startY;
+let appleY = [200, 180, 150, 240, 220, 240];
 let busketX = 780;
 let busketY = 700;
 let score = 0;
-let rules = 'Use the left and right arrow key to move the busket and get the apple by touching it!! Click on the restart button to restart';
+let sound;
 
 function preload(){
   tree = loadImage("assets/tree.png");                                  
@@ -31,6 +36,8 @@ function preload(){
   busket = loadImage("assets/plate.png");
   apple = loadImage("assets/apple.png");
   reset = loadImage("assets/reset.png");
+  start = loadImage("assets/start.png");
+  sound = loadSound('assets/drop.mp3');
 }
 
 function setup() {
@@ -40,20 +47,23 @@ function setup() {
   y = height/2;
   dx = random (10, 50);
   dy = random (10, 50);
-  busketX = width/2;
+  busketX = x;
+  resetX = width - resetSize;
+  startY = 20;
+  startX = x;
+
 }
 function draw() {
   imageMode(CORNER);
   background(bgImage);
-  //gameexplain();
-
-  displayTree();
-  //displayreset();
-  time();
-  movingApple();
-  movingBasket();
-  appleshitsbusket();
+  insTime();
+  //Sound.setVolume(0.1);
+  //Sound.play();
   
+  displayreset();
+  displaystart();
+  //start();
+  //restart(); 
 }
 
 //showup the tree
@@ -66,17 +76,21 @@ function displayTree(){
 function displayreset(){
   noStroke();
   imageMode(CENTER);
-  image(reset, x, resetY, resetSize, resetSize);
+  image(reset, resetX , resetY, resetSize, resetSize);
 }
+function displaystart(){
+  noStroke();
+  imageMode(CENTER);
+  image(start,  startX, startY, startW, startH);
+}
+
 
 function time (){
   let s = second();
   textSize(30);
   frameRate(20);
   fill(0, 102, 153);
-  let timimg = 
-  text('Time: \n' + s, 5, 50);
-  
+  text('Time:' + s, 5, 40);
 }
 
 function movingBasket() {
@@ -96,9 +110,9 @@ function movingBasket() {
 function movingApple(){
   noStroke();
   for (let i = 0; i < appleY.length; i++) {
-    let appleX = (i+5)*100;
+    let appleX = (i+3.5)*120;
     image(apple, appleX, appleY[i], appleSize, appleSize);
-    appleY[i] += 6;
+    appleY[i] += 5;
   }
 }
 
@@ -110,28 +124,52 @@ function appleshitsbuscket(){
   }
 }
 
-function gameexplain(){
-  fill(245);
-  text(rules, 10, 100, 500, 400);
+function mouseClicked(){
+  let dr = dist (mouseX, mouseY, resetX, resetY);
+  if ( dr < resetSize){
+    background(0);
+    s = 0, 
+    score = 0;
+  
+  } 
+}
+function start() {
+  if (mouseClicked()){
+    let ds = dist (mouseX, mouseY, startX, startY);
+    if (ds < startH || ds < startW){
+      displayTree();
+      time();
+      movingApple();
+      movingBasket();
+      appleshitsbusket();
+ 
+    }
+  }
 }
 
+function insTime() {
+  if (millis() < 9000){
+    instruction();
+  }
+}
+
+function instruction (){
+  textSize(38);
+  textAlign(CENTER);
+  text(" click on the 'start button', to start & 'Reset button' to restart the game!! ", x, y);
+  textSize(35);
+  text("Move the left arrow key and right arrow key to move the basket! ", x, y - 50);
+  textSize(30);
+  text("All you need to do is touch or catch as many apples as you can with the busket in 1 min! ", x, y - 100);
+}
+//function 
 
 
-//function showscore(){
-  //if (score >= 0){
-   // text('Score' score, 50, 30)
 
-  //}
+
 
 
 //function restart(){
-  //if (mouseClicked()){                                                                                                    
-    //if ()
-
-
-  //}
-
-
 //function sound() res4ert a p[icture with button click
 //function stop() with millis
 //function showscore()
