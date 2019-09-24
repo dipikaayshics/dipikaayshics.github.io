@@ -29,6 +29,7 @@ let busketX = 780;
 let busketY = 700;
 let score = 0;
 let sound;
+let startImg;
 
 function preload(){
   tree = loadImage("assets/tree.png");                                  
@@ -36,7 +37,7 @@ function preload(){
   busket = loadImage("assets/plate.png");
   apple = loadImage("assets/apple.png");
   reset = loadImage("assets/reset.png");
-  start = loadImage("assets/start.png");
+  startImg = loadImage("assets/start.png");
   sound = loadSound('assets/drop.mp3');
 }
 
@@ -62,8 +63,8 @@ function draw() {
   
   displayreset();
   displaystart();
-  //start();
-  //restart(); 
+  start();
+  // restart(); 
 }
 
 //showup the tree
@@ -81,7 +82,7 @@ function displayreset(){
 function displaystart(){
   noStroke();
   imageMode(CENTER);
-  image(start,  startX, startY, startW, startH);
+  image(startImg,  startX, startY, startW, startH);
 }
 
 
@@ -117,10 +118,13 @@ function movingApple(){
 }
 
 function appleshitsbuscket(){
-  if (appleX > busketX - busketSize && appleX < busketX + busketSize 
-    && appleY > busketX - busketSize && appleY < busketY + busketSize);{
-    score ++;
-    appleY = 200;
+  for (let i = 0; i < appleY.length; i++) {
+    let appleX = (i+3.5)*120;
+    if (appleX > busketX - busketSize && appleX < busketX + busketSize 
+      && appleY[i] > busketX - busketSize && appleY[i] < busketY + busketSize);{
+      score ++;
+      appleY[i] = 200;
+    }
   }
 }
 
@@ -134,21 +138,21 @@ function mouseClicked(){
   } 
 }
 function start() {
-  if (mouseClicked()){
+  if (mouseIsPressed){
     let ds = dist (mouseX, mouseY, startX, startY);
-    if (ds < startH || ds < startW){
+    if (ds < 100) { //startH || ds < startW){
       displayTree();
       time();
       movingApple();
       movingBasket();
-      appleshitsbusket();
+      appleshitsbuscket();
  
     }
   }
 }
 
 function insTime() {
-  if (millis() < 9000){
+  if (millis() < 8000){
     instruction();
   }
 }
@@ -163,7 +167,7 @@ function instruction (){
   text("All you need to do is touch or catch as many apples as you can with the busket in 1 min! ", x, y - 100);
 }
 //function 
-
+// if state = 
 
 
 
