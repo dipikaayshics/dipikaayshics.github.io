@@ -130,14 +130,8 @@ function gameexplain(){
 
 
   //}
-<<<<<<< HEAD
-//}
 
 
-=======
-
-
->>>>>>> 8525224026e8dc9ecda0077b247451d55c6ece42
 //function sound() res4ert a p[icture with button click
 //function stop() with millis
 //function showscore()
