@@ -31,7 +31,8 @@ let basketX = 780;
 let basketY = 700;
 let score = 0;
 let state = 'starting';
-
+let lastTimeSwitched = 0;
+let gametime = 60000;
 
 function preload(){
   tree = loadImage("assets/tree.png");                                  
@@ -80,7 +81,7 @@ function draw() {
  function gameplaying(){
   displayreset();
   displayTree();
-  text("SCORE  = " + score, 50, 20)
+  text("SCORE  = " + score, 100, 30)
   time();
   movingBasket();
   movingApple();
@@ -92,8 +93,8 @@ function draw() {
  function endscreen(){
    textAlign(CENTER);
    text ("Game Over", x, y);
-   text ("SCORE = " + score, x, y + 20);
-   text ("click on the start button to play again", x , y + 40);
+   text ("SCORE = " + score, x, y + 30);
+   text ("click on the start button to play again", x , y + 60);
  }
 
  //changes the states if mouse clicks the start button
@@ -145,7 +146,7 @@ function time (){
   textSize(30);
   frameRate(20);
   fill(0, 102, 153);
-  text('Time:' + s, 5, 60);
+  text('Time:' + s, 50, 60);
 }
 
 //moving the basket using arrow keys
@@ -167,28 +168,30 @@ function movingBasket() {
 function movingApple(){
   noStroke();
   for (let i = 0; i < appleY.length; i++) {
-    let appleX = (i+3.5)*120;
+    let appleX = (i+ 4)*120;
     image(apple, appleX, appleY[i], appleSize, appleSize);
     appleY[i] += 5;
+    console.log(appleY);
   }
 }
 
 // adds score and sends apple back to the y pos if basket ot floor touches apple
 function appleshitsbuscket(){
   for (let i = 0; i < appleY.length; i++) {
-    let appleX = (i+3.5)*120;
+    let appleX = (i+ 4)*120;
     if (appleX > basketX - basketSize && appleX < basketX + basketSize 
-      && appleY[i] > basketX - basketSize && appleY[i] < basketY + basketSize);{
+      && appleY[i] > basketX - basketSize && appleY[i] < basketY + basketSize) {
       score ++;
       appleY[i] = 200;
+      console.log(appleY);
       
       // sound effect each time apple hits or tiuches the basket
       //Sound.setVolume(0.1);
       //Sound.play();
     }
-  }
-  if (appleY >= height){
-      appleY[i] = 200;
+    if (appleY[i] > height){
+        appleY[i] = 200;
+    }
   }
 }
 
@@ -203,7 +206,7 @@ function mouseClicked(){
   let dr = dist (mouseX, mouseY, resetX, resetY);
   if ( dr < resetSize){
     restart();
-    state = "playing";
+    
   }
 }
 
@@ -249,8 +252,7 @@ function instruction (){
 // let basketY = 700;
 // let score = 0;
 // let state = '0';
-// let lastTimeSwitched = 0;
-// let gametime = 60000;
+
 
 
 
