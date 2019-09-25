@@ -3,7 +3,7 @@
 // sept 12
 // 
 // Extra for Experts:
-// - added sound effects
+// - added mysound effects
 
 // image variable
 let bgImage;
@@ -11,7 +11,7 @@ let tree;
 let apple;
 let basket;
 let reset;
-let sound;
+let mysound;
 let startImg;
 
 //other variable
@@ -26,7 +26,7 @@ let resetX = 100;
 let resetY = 150;
 let startX;
 let startY;
-let appleY = [200, 180, 150, 240, 220, 240];
+let appleY = [200, 180, 150];
 let basketX = 780;
 let basketY = 700;
 let score = 0;
@@ -41,7 +41,7 @@ function preload(){
   apple = loadImage("assets/apple.png");
   reset = loadImage("assets/reset.png");
   startImg = loadImage("assets/startimg.png");
-  sound = loadSound("assets/drop.mp3");
+  mysound = loadSound("assets/drop.mp3");
 }
 
 function setup() {
@@ -49,7 +49,7 @@ function setup() {
   x = width/2;
   y = height/2;
   
-  basketX = x;
+  basketX = 800;
   startX = width - resetSize;
   startY = 100;
 }
@@ -93,8 +93,8 @@ function draw() {
  function endscreen(){
    textAlign(CENTER);
    text ("Game Over", x, y);
-   text ("SCORE = " + score, x, y + 30);
-   text ("click on the start button to play again", x , y + 60);
+   text ("SCORE = " + score, x, y + 40);
+   text ("Click on the start button to go back to the menu page", x , y + 80);
  }
 
  //changes the states if mouse clicks the start button
@@ -104,7 +104,6 @@ function draw() {
     lastTimeSwitched = millis();
     if(state=== "starting"){
       state = "playing";
-      s = 0;
     }
     else if(state === "end"){
       state = "starting";
@@ -143,10 +142,14 @@ function displaystart(){
 //time showing using seconds
 function time (){
   let s = second();
-  textSize(30);
-  frameRate(20);
-  fill(0, 102, 153);
-  text('Time:' + s, 50, 60);
+  if (state = "playing"){
+    s = 0;
+    s ++;
+    textSize(30);
+    frameRate(20);
+    fill(0, 102, 153);
+    text('Time:' + s, 80, 60);
+  }
 }
 
 //moving the basket using arrow keys
@@ -168,26 +171,26 @@ function movingBasket() {
 function movingApple(){
   noStroke();
   for (let i = 0; i < appleY.length; i++) {
-    let appleX = (i+ 4)*120;
+    let appleX = (i+ 3)*200;
     image(apple, appleX, appleY[i], appleSize, appleSize);
     appleY[i] += 5;
-    console.log(appleY);
   }
 }
 
 // adds score and sends apple back to the y pos if basket ot floor touches apple
 function appleshitsbuscket(){
   for (let i = 0; i < appleY.length; i++) {
-    let appleX = (i+ 4)*120;
-    if (appleX > basketX - basketSize && appleX < basketX + basketSize 
-      && appleY[i] > basketX - basketSize && appleY[i] < basketY + basketSize) {
+    let appleX = (i+ 3)*200;
+    if (appleX > basketX - (basketSize/2) && appleX < basketX + (basketSize/2) 
+      && appleY[i] > basketX - (basketSize/2) && appleY[i] < basketY + (basketSize/2)) {
       score ++;
       appleY[i] = 200;
-      console.log(appleY);
       
-      // sound effect each time apple hits or tiuches the basket
-      //Sound.setVolume(0.1);
-      //Sound.play();
+      console.log(basketSize);
+      
+      // mysound effect each time apple hits or tiuches the basket
+      //mysound.setVolume(0.1);
+      mysound.play();
     }
     if (appleY[i] > height){
         appleY[i] = 200;
@@ -198,7 +201,6 @@ function appleshitsbuscket(){
 //restart
 function restart(){
   score = 0;
-  s = 0;
 }
 
 // restart everything if reset button clicked
@@ -232,7 +234,7 @@ function instruction (){
 // let apple;
 // let basket;
 // let reset;
-// let sound;
+// let mysound;
 // let startImg;
 
 // //other variable
@@ -264,7 +266,7 @@ function instruction (){
 //   apple = loadImage("assets/apple.png");
 //   reset = loadImage("assets/reset.png");
 //   startImg = loadImage("assets/startimg.png");
-//   sound = loadSound("assets/drop.mp3");
+//   mysound = loadmysound("assets/drop.mp3");
 // }
 
 // function setup() {
@@ -352,7 +354,7 @@ function instruction (){
 //   }
 // }
 
-// // apples are falling and going back to y position also the sound if basket touches apple
+// // apples are falling and going back to y position also the mysound if basket touches apple
 // function appleshitsbascket(){
 //   for (let i = 0; i < appleY.length; i++) {
 //     let appleX = (i+3.5)*120;
@@ -360,8 +362,8 @@ function instruction (){
 //       && appleY[i] > basketX - basketSize && appleY[i] < basketY + basketSize);{
 //       score ++;
 //       appleY[i] = 200;
-//       //Sound.setVolume(0.1);
-//       //Sound.play();
+//       //mysound.setVolume(0.1);
+//       //mysound.play();
 //     }
 //     // if (appleY >= height){
 //     //   appleY[i] = 200;
