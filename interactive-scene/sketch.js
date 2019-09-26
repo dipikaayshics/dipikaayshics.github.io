@@ -1,6 +1,6 @@
 // Interactive scene
 // Dipika Ayshi
-// starte - sept 12
+// started - sept 12
 // completed - spet 25
 // 
 // Extra for Experts:
