@@ -222,7 +222,7 @@ function instruction (){
   textSize(42);
   fill(0);
   textAlign(CENTER);
-  text(" Click on the 'start button', to start & 'reset button' to reset the game!! ", x, y+ 40);
+  text(" Click on the 'start button' to start & 'reset button' to reset the game!! ", x, y+ 40);
   textSize(40);
   text("Use the left arrow key and the right arrow key to move the basket! ", x, y - 40);
   textSize(38);
