@@ -43,7 +43,7 @@ let speed = 3;
 function preload(){
   tree = loadImage("assets/tree.png");                                  
   bgImage = loadImage("assets/bgImage.jpg");
-  basket = loadImage("assets/plate.png");
+  basket = loadImage("assets/Plate.png");
   apple = loadImage("assets/apple.png");
   reset = loadImage("assets/reset.png");
   startImg = loadImage("assets/startimg.png");
