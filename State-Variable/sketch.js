@@ -20,6 +20,7 @@ let appleSize = 50;
 let basketSize = 100;
 let resetSize = 120;
 let startSize = 150;
+let bowSize = 300;
 let resetX = 100;
 let resetY = 150;
 let appleY = 200;
@@ -93,6 +94,10 @@ function windowResized() {
   restart();
  }
 
+ function play3 () {
+   
+ }
+
 
  // state or screen while playing the game. Basket touching the apple, showing score, tree, 
  function gameplaying(){
@@ -105,6 +110,7 @@ function windowResized() {
   movingBasket();
   appleHitsBasket();
   dead();
+  
  }
 
 
@@ -150,6 +156,12 @@ function displayApple(){
   noStroke();
   image(apple,  appleX, appleY, appleSize, appleSize);
   appleY += speed;
+}
+function displayBow() {
+  noStroke();
+  imageMode(CORNER);
+  image (bow, 300, y, bowSize, bowSize );
+  
 }
 
 
@@ -244,31 +256,7 @@ function mouseClicked(){
   }
 }
 function aroowTouchesObject(){
-                                                                                                                                                                                                                                                                       
-
+                                                                                                                                                                                                                                                          
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // opengmaeart
