@@ -1,8 +1,7 @@
 // Project Title
 // dipika
 // sept 9
-let x;
-let y;
+let x, y;
 let dx;
 let dy;
 let radius = 100;
