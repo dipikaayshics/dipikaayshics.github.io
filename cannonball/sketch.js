@@ -1,34 +1,41 @@
-let cannonX;
-let cannonY;
-let cannonWidth;
-let cannonLength;
-let cannonAngle;
-let bullets = [];
+let bowx;
+let bow;
+let arrow;
+let bowY;
+let bowWidth;
+let bowLength;
+let bowAngle;
+let Bow = [];
 
+function preload(){                                  
+  
+  bow = loadImage("assets/bow.png");
+  arrow = loadImage("assets/arrow.png");
+}
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
-  cannonX = 75;
-  cannonY = height - 150;
-  cannonWidth = 50;
-  cannonLength = 125;
-  cannonAngle = 0;
+  bowX = 75;
+  bowY = height - 150;
+  bowWidth = 50;
+  bowLength = 125;
+  bowAngle = 0;
 }
 
 function draw() {
   background(220);
   
-  displayCannon();
-  updateBullets();
+  displaybow();
+  updateBow();
 }
 
-function displayCannon() {
+function displaybow() {
   push(); //save the transformation matrix
-  translate(cannonX, cannonY);
-  cannonAngle = atan2(mouseY - cannonY, mouseX - cannonX);
-  rotate(cannonAngle);
-  rect(0, -cannonWidth/2, cannonLength, cannonWidth);
-  circle(0, 0, cannonWidth);
+  translate(bowX, bowY);
+  bowAngle = atan2(mouseY - bowY, mouseX - bowX);
+  rotate(bowAngle);
+  rect(0, -bowWidth/2, bowLength, bowWidth);
+  circle(0, 0, bowWidth);
   pop(); //reload the old transformation matrix
 }
 
@@ -37,20 +44,20 @@ function mouseClicked() {
 }
 
 function fire() {
-  let thisBullet = {
-    x: cannonX,
-    y: cannonY,
-    radius: cannonWidth,
-    angle: cannonAngle,
+  let arrow = {
+    x: bowX,
+    y: bowY,
+    radius: bowWidth,
+    angle: bowAngle,
     speed: 15
   };
-  bullets.push(thisBullet);
+  Bow.push(arrow);
 }
 
-function updateBullets() {
-  for (let thisBullet of bullets) {
-    thisBullet.x += thisBullet.speed * cos(thisBullet.angle);
-    thisBullet.y += thisBullet.speed * sin(thisBullet.angle);
-    circle(thisBullet.x, thisBullet.y, thisBullet.radius);
+function updateBow() {
+  for (let arrow of Bow) {
+    arrow.x += arrow.speed * cos(arrow.angle);
+    arrow.y += arrow.speed * sin(arrow.angle);
+    circle(arrow.x, arrow.y, arrow.radius);
   }
 }
