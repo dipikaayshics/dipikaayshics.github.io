@@ -7,7 +7,7 @@
 
 let bgImg1;
 let bgImg2;
-let apple;
+let balloon;
 let arrow;
 let bow;
 let reset;
@@ -20,32 +20,30 @@ let bowx;
 let bowY;
 let bowSize = 280;
 let bowAngle;
-let Bow = [];
+let arrows = [];
 let arrowSize = 400;
-let appleSize = 50;
-let appleY = [200, 180, 150, 400, 200, 260,100];
-let appleX;
+let balloonSize = 90;
+let balloonY = [800, 650, 540, 200, 48];
+let balloonX;
 
 let resetSize = 120;
 let startSize = 150;
-let resetX = 100;
-let resetY = 130;
+let resetX = 120;
+let resetY = 120;
 let startX;
 let startY;
 
 let score = 0;
 let state = 'starting';
 let lastTimeSwitched = 0;
-let gametime = 6000;
-let speed = 3;
-
+let gametime = 90000;
 
 function preload(){                                  
     bgImg1 = loadImage("assets/bgImg1.jpg");
     bgImg2 = loadImage("assets/bgImg2.png");
     bow = loadImage("assets/bow.png");
     arrow = loadImage("assets/arrow.png");
-    apple = loadImage("assets/apple.png");
+    balloon = loadImage("assets/balloon.png");
     reset = loadImage("assets/reset.png");
     startImg = loadImage("assets/startimg.png");
     mysound = loadSound("assets/drop.mp3");
@@ -59,9 +57,9 @@ function setup() {
     
     startX = width - resetSize;
     startY = 100;
-    
+  
     bowX = 200;
-    bowY = y + 50;
+    bowY = y + 150;
     
     bowAngle = 0;
 }
@@ -102,9 +100,9 @@ function draw() {
   text("SCORE  = " + score, 120, 40);
   //time();
   displayBow();
-  fallingApple();
-  //fireArrow
-  // arrowTouchesApple
+  fallingballoon();
+  fireArrow();
+  //arrowTouchesballoon();
   dead();
  }
 
@@ -122,8 +120,8 @@ function draw() {
 
  //changes the states if mouse clicks the start button
  function mousePressed(){
-  let ds = dist (mouseX, mouseY, startX, startY);
-  if (ds < startSize) { 
+  let disStart = dist (mouseX, mouseY, startX, startY);
+  if (disStart < startSize) { 
     lastTimeSwitched = millis();
     if(state=== "starting"){
       state = "playing";
@@ -154,16 +152,9 @@ function displayBow(){
   translate(bowX, bowY);
   bowAngle = atan2(mouseY - bowY, mouseX - bowX);
   rotate(bowAngle);
-  image(bow, 0, -bowSize/4, bowSize, bowSize);
+  image(bow, 0, -bowSize/2, bowSize, bowSize);
   pop(); //reload the old transformation matrix
 }
-
-// //fire the arrow
-// function fireArrow(){
-//   if (keyCode === "SPACE"){
-//     fire()
-//   }
-// }
 
 
 function mouseClicked() {
@@ -171,73 +162,65 @@ function mouseClicked() {
 }
 
 function fire() {
-  let thisBullet = {
-    x: cannonX,
-    y: cannonY,
-    angle: cannonAngle,
-    bulletsize : cannonSize,
-   
-    //image: bullet,
+  let thisArrow = {
+    x: bowX,
+    y: bowY,
+    angle: bowAngle,
+    arrowSize: bowSize,
     speed: 15
   };
-  bullets.push(thisBullet);
+  arrows.push(thisArrow);
 }
 
-function updateBullets() {
-  for (let thisBullet of bullets) {
-    thisBullet.x += thisBullet.speed * cos(thisBullet.angle);
-    thisBullet.y += thisBullet.speed * sin(thisBullet.angle);
+function fireArrow() {
+  for (let thisArrow of arrows) {
+    thisArrow.x += thisArrow.speed * cos(thisArrow.angle);
+    thisArrow.y += thisArrow.speed * sin(thisArrow.angle);
     push();
-    translate(thisBullet.x, thisBullet.y);
-    rotate(thisBullet.angle);
-    image(bullet, 0, 0, thisBullet.bulletsize, thisBullet.bulletsize);
+    translate(thisArrow.x, thisArrow.y);
+    rotate(thisArrow.angle);
+    imageMode(CENTER);
+    image(arrow, 0, 0, thisArrow.arrowSize, thisArrow.arrowSize);
     pop();
   }
 }
 
-// ARROW touches the apple
-function arrowTouchesApple(){
-
+//balloon falling
+function fallingballoon(){
+  noStroke();
+  for (let i = 0; i < balloonY.length; i++) {
+    let balloonX = (i+7)*130;
+    image(balloon, balloonX, balloonY[i], balloonSize, balloonSize);
+    balloonY[i] -= 5;
+  }
 }
+
+
+// adds score and sends balloon back to the y pos if the arrow or the roof touches ballon
+function arrowTouchesballoon(){
+  noStroke();
+  for (let i = 0; i < balloonY.length; i++) {
+    let balloonX = (i+7)*130;
+    image(balloon, balloonX, balloonY[i], balloonSize, balloonSize);
+    balloonY[i] -= 3;
+    if (balloonX > thisArrow.x - (thisArrow.arrowSize/2) && balloonX < thisArrow.x + (thisArrow.arrowSize/2) 
+      && balloonY[i] > thisArrow.y - (thisArrow.arrowSize/2) && balloonY[i] < thisArrow.y + (thisArrow.arrowSize/2)) {
+      score ++;
+      balloonY[i] = height;
+      
+      // mysound effect each time balloon hits or tiuches the basket
+      mysound.play();
+    }
+    if (balloonY[i] < height){
+        balloonY[i] = height;
+    }
+  }
+}
+
 
 function dead(){
   if (millis() > lastTimeSwitched + gametime){
     state = "end";
-  }
-}
-
-//apple falling
-function fallingApple(){
-  noStroke();
-  for (let i = 0; i < appleY.length; i++) {
-    let appleX = (i+6)*130;
-    image(apple, appleX, appleY[i], appleSize, appleSize);
-    appleY[i] += 3;
-  }
-}
-
-
-
-
-
-// adds score and sends apple back to the y pos if basket ot floor touches apple
-function appleshitsbuscket(){
-  noStroke();
-  for (let i = 0; i < appleY.length; i++) {
-    let appleX = (i+5.5)*150;
-    image(apple, appleX, appleY[i], appleSize, appleSize);
-    appleY[i] += 3;
-    if (appleX > basketX - (basketSize/2) && appleX < basketX + (basketSize/2) 
-      && appleY[i] > basketY - (basketSize/2) && appleY[i] < basketY + (basketSize/2)) {
-      score ++;
-      appleY[i] = 0;
-      
-      // mysound effect each time apple hits or tiuches the basket
-      mysound.play();
-    }
-    if (appleY[i] > height){
-        appleY[i] = 0;
-    }
   }
 }
 
@@ -248,8 +231,8 @@ function restart(){
 
 // restart everything if reset button clicked
 function mouseClicked(){
-  let dr = dist (mouseX, mouseY, resetX, resetY);
-  if ( dr < resetSize){
+  let disRestart = dist (mouseX, mouseY, resetX, resetY);
+  if ( disRestart < resetSize){
     restart();
   }
 }
