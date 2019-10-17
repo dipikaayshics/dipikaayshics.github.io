@@ -23,7 +23,7 @@ let resetX = 100;
 let resetY = 150;
 let startX;
 let startY;
-let appleY = [200, 180, 150];
+let appleY = [350, 100, 10, 500, 800];
 let appleX;
 
 let basketY = 700;
@@ -82,7 +82,7 @@ function draw() {
   text("SCORE  = " + score, 100, 30)
   //time();
   movingBasket();
-  movingApple();
+  //movingApple();
   appleshitsbuscket();
   timelimit();
  }
@@ -171,7 +171,7 @@ function movingBasket() {
 function movingApple(){
   noStroke();
   for (let i = 0; i < appleY.length; i++) {
-    let appleX = (i+ 3)*200;
+    let appleX = (i+3)*300;
     image(apple, appleX, appleY[i], appleSize, appleSize);
     appleY[i] += 5;
     console.log(appleX);
@@ -180,18 +180,21 @@ function movingApple(){
 
 // adds score and sends apple back to the y pos if basket ot floor touches apple
 function appleshitsbuscket(){
+  noStroke();
   for (let i = 0; i < appleY.length; i++) {
-    let appleX = ((i+ 3)*200);
+    let appleX = (i+5.5)*150;
+    image(apple, appleX, appleY[i], appleSize, appleSize);
+    appleY[i] += 3;
     if (appleX > basketX - (basketSize/2) && appleX < basketX + (basketSize/2) 
       && appleY[i] > basketY - (basketSize/2) && appleY[i] < basketY + (basketSize/2)) {
       score ++;
-      appleY[i] = 200;
+      appleY[i] = 0;
       
       // mysound effect each time apple hits or tiuches the basket
       mysound.play();
     }
     if (appleY[i] > height){
-        appleY[i] = 200;
+        appleY[i] = 0;
     }
   }
 }

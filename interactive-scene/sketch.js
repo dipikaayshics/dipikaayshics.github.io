@@ -36,7 +36,7 @@ let score = 0;
 let state = 'starting';
 let lastTimeSwitched = 0;
 let gametime = 120000;
-let speed = 3;
+let speed = 8;
 
 
 // preloading all the images and sound from the asset folder
@@ -104,7 +104,7 @@ function windowResized() {
   displayApple();
   fill(0);
   textSize(35);
-  text("SCORE  = " + score, 120, 40)
+  text("SCORE  = " + score, 120, 40);
   movingBasket();
   appleHitsBasket();
   dead();
@@ -182,7 +182,7 @@ function choosingRandomAppleX(){
 function appleHitsBasket(){
   if (appleY > basketY && appleX < basketX + basketSize/2 && appleX > basketX - basketSize/2){
     appleY = 200;
-    speed += 0.7;
+    speed += 0.3;
     score ++;
     mysound.play();
     choosingRandomAppleX();

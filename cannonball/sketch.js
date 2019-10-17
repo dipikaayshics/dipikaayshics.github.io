@@ -1,41 +1,38 @@
-let bowx;
-let bow;
-let arrow;
-let bowY;
-let bowWidth;
-let bowLength;
-let bowAngle;
-let Bow = [];
+let cannonX;
+let cannonY;
+let cannonSize;
+let cannonAngle;
+let bullets = [];
+let bullet;
+let cannon;
 
-function preload(){                                  
-  
-  bow = loadImage("assets/bow.png");
-  arrow = loadImage("assets/arrow.png");
+function preload(){
+  cannon = loadImage("assets/bow.png");
+  bullet = loadImage("assets/arrow.png");
 }
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
-  bowX = 75;
-  bowY = height - 150;
-  bowWidth = 50;
-  bowLength = 125;
-  bowAngle = 0;
+  cannonX = 75;
+  cannonY = height - 150;
+  cannonSize = 125;
+  cannonAngle = 0;
 }
 
 function draw() {
   background(220);
   
-  displaybow();
-  updateBow();
+  displayCannon();
+  updateBullets();
 }
 
-function displaybow() {
+function displayCannon() {
   push(); //save the transformation matrix
-  translate(bowX, bowY);
-  bowAngle = atan2(mouseY - bowY, mouseX - bowX);
-  rotate(bowAngle);
-  rect(0, -bowWidth/2, bowLength, bowWidth);
-  circle(0, 0, bowWidth);
+  translate(cannonX, cannonY);
+  cannonAngle = atan2(mouseY - cannonY, mouseX - cannonX);
+  rotate(cannonAngle);
+  image(cannon, 0, -cannonSize/2, cannonSize, cannonSize);
   pop(); //reload the old transformation matrix
 }
 
@@ -44,20 +41,22 @@ function mouseClicked() {
 }
 
 function fire() {
-  let arrow = {
-    x: bowX,
-    y: bowY,
-    radius: bowWidth,
-    angle: bowAngle,
+  let thisBullet = {
+    x: cannonX,
+    y: cannonY,
+    radius: 50,
+    angle: cannonAngle,
+   
+    //image: bullet,
     speed: 15
   };
-  Bow.push(arrow);
+  bullets.push(thisBullet);
 }
 
-function updateBow() {
-  for (let arrow of Bow) {
-    arrow.x += arrow.speed * cos(arrow.angle);
-    arrow.y += arrow.speed * sin(arrow.angle);
-    circle(arrow.x, arrow.y, arrow.radius);
+function updateBullets() {
+  for (let thisBullet of bullets) {
+    thisBullet.x += thisBullet.speed * cos(thisBullet.angle);
+    thisBullet.y += thisBullet.speed * sin(thisBullet.angle);
+    circle(thisBullet.x, thisBullet.y, thisBullet.radius);
   }
 }
