@@ -44,8 +44,8 @@ function fire() {
   let thisBullet = {
     x: cannonX,
     y: cannonY,
-    radius: 50,
     angle: cannonAngle,
+    bulletsize : cannonSize,
    
     //image: bullet,
     speed: 15
@@ -57,6 +57,11 @@ function updateBullets() {
   for (let thisBullet of bullets) {
     thisBullet.x += thisBullet.speed * cos(thisBullet.angle);
     thisBullet.y += thisBullet.speed * sin(thisBullet.angle);
-    circle(thisBullet.x, thisBullet.y, thisBullet.radius);
+    push();
+    translate(thisBullet.x, thisBullet.y);
+    rotate(thisBullet.angle);
+    imageMode(CENTER);
+    image(bullet, 0, 0, thisBullet.bulletsize, thisBullet.bulletsize);
+    pop();
   }
 }

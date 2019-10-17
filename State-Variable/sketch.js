@@ -158,10 +158,40 @@ function displayBow(){
   pop(); //reload the old transformation matrix
 }
 
-//fire the arrow
-function fireArrow(){
-  if (keyCode === "SPACE"){
-    fire()
+// //fire the arrow
+// function fireArrow(){
+//   if (keyCode === "SPACE"){
+//     fire()
+//   }
+// }
+
+
+function mouseClicked() {
+  fire();
+}
+
+function fire() {
+  let thisBullet = {
+    x: cannonX,
+    y: cannonY,
+    angle: cannonAngle,
+    bulletsize : cannonSize,
+   
+    //image: bullet,
+    speed: 15
+  };
+  bullets.push(thisBullet);
+}
+
+function updateBullets() {
+  for (let thisBullet of bullets) {
+    thisBullet.x += thisBullet.speed * cos(thisBullet.angle);
+    thisBullet.y += thisBullet.speed * sin(thisBullet.angle);
+    push();
+    translate(thisBullet.x, thisBullet.y);
+    rotate(thisBullet.angle);
+    image(bullet, 0, 0, thisBullet.bulletsize, thisBullet.bulletsize);
+    pop();
   }
 }
 
@@ -225,7 +255,6 @@ function mouseClicked(){
 }
 
 
-// explaining the game
 // explaining the game
 function instruction (){
   textSize(42);
