@@ -4,6 +4,7 @@
 // completed - october 21
 // 
 // Extra for Experts:
+//
 
 let bgImg1;
 let bgImg2;
@@ -12,6 +13,8 @@ let arrow;
 let bow;
 let reset;
 let startImg;
+let arrowSound;
+let popSound;
 
 let x;
 let y;
@@ -21,9 +24,8 @@ let bowY;
 let bowSize = 280;
 let bowAngle;
 let arrows = [];
-let arrowSize = 400;
 let balloonSize = 90;
-let balloonY = [800, 650, 540, 200, 48];
+let balloonY = [800, 200, 580, 0, 100];
 let balloonX;
 
 let resetSize = 120;
@@ -46,9 +48,10 @@ function preload(){
     balloon = loadImage("assets/balloon.png");
     reset = loadImage("assets/reset.png");
     startImg = loadImage("assets/startimg.png");
-    mysound = loadSound("assets/drop.mp3");
-}
+    arrowSound = loadSound("assets/arrow.mp3");
+    popSound = loadSound("assets/blast.mp3");
 
+}
 
 function setup() {
     createCanvas(windowWidth, windowHeight);
@@ -60,14 +63,12 @@ function setup() {
   
     bowX = 200;
     bowY = y + 150;
-    
     bowAngle = 0;
 }
 
 //draw all the functions
 function draw() {
-  displayStart();
-  
+
   if (state === "starting"){
     imageMode(CORNER);
     background(bgImg1);
@@ -97,12 +98,12 @@ function draw() {
  function gamePlaying(){
   displayReset();
   textSize(35);
-  text("SCORE  = " + score, 120, 40);
+  text("SCORE  = " + score, 300, 40);
   //time();
   displayBow();
-  fallingballoon();
+  flyingBalloon();
   fireArrow();
-  //arrowTouchesballoon();
+  arrowTouchesballoon();
   dead();
  }
 
@@ -118,19 +119,6 @@ function draw() {
   text ("Click on the 'start button' to go back to the menu page", x , y + 185);
 }
 
- //changes the states if mouse clicks the start button
- function mousePressed(){
-  let disStart = dist (mouseX, mouseY, startX, startY);
-  if (disStart < startSize) { 
-    lastTimeSwitched = millis();
-    if(state=== "starting"){
-      state = "playing";
-    }
-    else if(state === "end"){
-      state = "starting";
-    }
-  }
-}
 
 //showup reset button
 function displayReset(){
@@ -148,19 +136,21 @@ function displayStart(){
 
 // showup the bow
 function displayBow(){
-  push(); //save the transformation matrix
+  push(); 
   translate(bowX, bowY);
   bowAngle = atan2(mouseY - bowY, mouseX - bowX);
   rotate(bowAngle);
   image(bow, 0, -bowSize/2, bowSize, bowSize);
-  pop(); //reload the old transformation matrix
+  pop(); 
 }
 
-
+// when mouse clicked fires arrow and creates a sound effects
 function mouseClicked() {
   fire();
+  arrowSound.play();
 }
 
+// updating the arrow
 function fire() {
   let thisArrow = {
     x: bowX,
@@ -172,6 +162,7 @@ function fire() {
   arrows.push(thisArrow);
 }
 
+//firing the arrow
 function fireArrow() {
   for (let thisArrow of arrows) {
     thisArrow.x += thisArrow.speed * cos(thisArrow.angle);
@@ -185,8 +176,9 @@ function fireArrow() {
   }
 }
 
-//balloon falling
-function fallingballoon(){
+
+//balloon flying
+function flyingBalloon(){
   noStroke();
   for (let i = 0; i < balloonY.length; i++) {
     let balloonX = (i+7)*130;
@@ -201,32 +193,55 @@ function arrowTouchesballoon(){
   noStroke();
   for (let i = 0; i < balloonY.length; i++) {
     let balloonX = (i+7)*130;
-    image(balloon, balloonX, balloonY[i], balloonSize, balloonSize);
-    balloonY[i] -= 3;
-    if (balloonX > thisArrow.x - (thisArrow.arrowSize/2) && balloonX < thisArrow.x + (thisArrow.arrowSize/2) 
-      && balloonY[i] > thisArrow.y - (thisArrow.arrowSize/2) && balloonY[i] < thisArrow.y + (thisArrow.arrowSize/2)) {
-      score ++;
-      balloonY[i] = height;
-      
-      // mysound effect each time balloon hits or tiuches the basket
-      mysound.play();
-    }
-    if (balloonY[i] < height){
+    for (let thisArrow of arrows) {
+      thisArrow.x += thisArrow.speed * cos(thisArrow.angle);
+      thisArrow.y += thisArrow.speed * sin(thisArrow.angle);
+      if (balloonX > thisArrow.x - (thisArrow.arrowSize/2) && balloonX < thisArrow.x + (thisArrow.arrowSize/2) 
+        && balloonY[i] > thisArrow.y - (thisArrow.arrowSize/2) && balloonY[i] < thisArrow.y + (thisArrow.arrowSize/2)) {
+        score ++;
         balloonY[i] = height;
-    }
+        
+        // mysound effect each time balloon hits or tiuches the basket
+        popSound.play();
+      }
+      if (balloonY[i] < height){
+          balloonY[i] = height;
+      }
   }
 }
+}
 
-
+//if time is more than 90 sec, the game ends
 function dead(){
   if (millis() > lastTimeSwitched + gametime){
     state = "end";
   }
 }
 
+// leftover time showing in the screen
+function time (){
+  if (millis){
+    text("Time = " + millis, 500, 40);
+  }
+}
+
 //restart
 function restart(){
   score = 0;
+}
+
+ //changes the states if mouse clicks the start button
+ function mousePressed(){
+  let disStart = dist (mouseX, mouseY, startX, startY);
+  if (disStart < startSize) { 
+    lastTimeSwitched = millis();
+    if(state=== "starting"){
+      state = "playing";
+    }
+    else if(state === "end"){
+      state = "starting";
+    }
+  }
 }
 
 // restart everything if reset button clicked
@@ -243,10 +258,11 @@ function instruction (){
   textSize(42);
   fill(0);
   textAlign(CENTER);
-  text(" Click on the 'start button' to start & 'reset button' to reset the game!! ", x, y+ 40);
+  text(" Click on the 'start button' to start & 'reset button' to reset the game!! ", x, y+ 50);
   textSize(40);
-  text("Use the 'mouse' to rotate the BOW and 'space' key to shoot the arrow! ", x, y - 40);
+  text("Use the 'mouse' to rotate the BOW and 'space' key to shoot the arrow! ", x, y - 20);
   textSize(38);
-  text("Pop as many balloons as you can in 90 seconds! ", x, y - 90);
+  text("Pop as many balloons as you can in 90 seconds! ", x, y - 80);
   text("All you need to do is pop the balloon with the arrow! ", x, y - 130);
 }
+

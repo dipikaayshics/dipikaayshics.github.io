@@ -82,7 +82,7 @@ function draw() {
   text("SCORE  = " + score, 100, 30)
   //time();
   movingBasket();
-  //movingApple();
+  movingApple();
   appleshitsbuscket();
   timelimit();
  }
@@ -171,7 +171,7 @@ function movingBasket() {
 function movingApple(){
   noStroke();
   for (let i = 0; i < appleY.length; i++) {
-    let appleX = (i+3)*300;
+    let appleX = (i+5.5)*150;
     image(apple, appleX, appleY[i], appleSize, appleSize);
     appleY[i] += 5;
     console.log(appleX);
@@ -183,8 +183,6 @@ function appleshitsbuscket(){
   noStroke();
   for (let i = 0; i < appleY.length; i++) {
     let appleX = (i+5.5)*150;
-    image(apple, appleX, appleY[i], appleSize, appleSize);
-    appleY[i] += 3;
     if (appleX > basketX - (basketSize/2) && appleX < basketX + (basketSize/2) 
       && appleY[i] > basketY - (basketSize/2) && appleY[i] < basketY + (basketSize/2)) {
       score ++;
