@@ -19,7 +19,7 @@ let popSound;
 let x;
 let y;
 
-let bowx;
+let bowX;
 let bowY;
 let bowSize = 280;
 let bowAngle;
@@ -39,6 +39,7 @@ let score = 0;
 let state = 'starting';
 let lastTimeSwitched = 0;
 let gametime = 90000;
+
 
 function preload(){                                  
     bgImg1 = loadImage("assets/bgImg1.jpg");
@@ -96,10 +97,10 @@ function draw() {
 
  // state or screen while playing the game 
  function gamePlaying(){
-  displayReset();
+  // displayReset();
   textSize(35);
   text("SCORE  = " + score, 300, 40);
-  //time();
+  // //time();
   displayBow();
   flyingBalloon();
   fireArrow();
@@ -156,15 +157,16 @@ function fire() {
     x: bowX,
     y: bowY,
     angle: bowAngle,
-    arrowSize: bowSize,
-    speed: 15
+    arrowSize: bowSize - 30,
+    speed: 15,
   };
   arrows.push(thisArrow);
+  console.log(thisArrow);
 }
 
 //firing the arrow
 function fireArrow() {
-  for (let thisArrow of arrows) {
+  for (let thisArrow of arrows) { 
     thisArrow.x += thisArrow.speed * cos(thisArrow.angle);
     thisArrow.y += thisArrow.speed * sin(thisArrow.angle);
     push();
@@ -203,7 +205,7 @@ function arrowTouchesballoon(){
         
         // mysound effect each time balloon hits or tiuches the basket
         popSound.play();
-      }
+      }.
       if (balloonY[i] < height){
           balloonY[i] = height;
       }
@@ -239,18 +241,18 @@ function restart(){
       state = "playing";
     }
     else if(state === "end"){
-      state = "starting";
+      state = "starting"; 
     }
   }
 }
 
 // restart everything if reset button clicked
-function mouseClicked(){
-  let disRestart = dist (mouseX, mouseY, resetX, resetY);
-  if ( disRestart < resetSize){
-    restart();
-  }
-}
+// function mouseClicked(){
+//   let disRestart = dist (mouseX, mouseY, resetX, resetY);
+//   if ( disRestart < resetSize){
+//     restart();
+//   }
+// }
 
 
 // explaining the game
