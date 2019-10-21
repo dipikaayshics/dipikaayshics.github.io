@@ -40,7 +40,7 @@ let score = 0;
 let state = 'starting';
 let lastTimeSwitched = 0;
 let gameTime = 90000;
-let hit = false;
+let hit = true;
 
 
 function preload(){                                  
@@ -105,7 +105,7 @@ function draw() {
   displayBow();
   flyingBalloon();
   fireArrow();
-  arrowTouchesballoon();
+  //arrowTouchesballoon();
   dead();
  }
 
@@ -190,25 +190,27 @@ function flyingBalloon(){
     let balloonX = (i+7)*130;
     image(balloon, balloonX, balloonY[i], balloonSize, balloonSize);
     balloonY[i] -= 5;
+    // if (balloonY[i] < height){
+    //   balloonY[i] = 200;
+    // }
   }
 }
-
 
 function arrowTouchesballoon() {
   for (let i = 0; i < arrows.length; i++) {
     let balloonX = (i+7)*130;
     for (let j = 0; j < balloonY.length; j++) { 
-      arrows[j].x += arrows[j].speed * cos(arrows[j].angle);
-      arrows[j].y += arrows[j].speed * sin(arrows[j].angle);
-    
-      hit = collideRectRect (balloonX, balloonY[i], balloonSize, balloonSize, arrows[j].x, arrows[j].y, arrows[j].Size, arrows[j].Size);
+      arrows[i].x += arrows[i].speed * cos(arrows[i].angle);
+      arrows[i].y += arrows[i].speed * sin(arrows[i].angle);
+      
+      hit = collideRectRect (balloonX, balloonY[j], balloonSize, balloonSize, arrows[i].x, arrows[i].y, arrows[i].Size, arrows[i].Size);
       if (hit === true){
         score ++;
-        balloonY[i] = height;
+        balloonY[j] = height;
         popSound.play();
       }
-      if (balloonY[i] < height){
-        balloonY[i] = height;
+      if (balloonY[j] < height){
+        balloonY[j] = 200;
       }
     }  
   }
