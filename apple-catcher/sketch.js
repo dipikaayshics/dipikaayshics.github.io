@@ -30,7 +30,7 @@ let basketY = 700;
 let score = 0;
 let state = 'starting';
 let lastTimeSwitched = 0;
-let gametime = 60000;
+let gametime = 10000;
 
 function preload(){
   tree = loadImage("assets/tree.png");                                  
@@ -171,7 +171,7 @@ function movingBasket() {
 function movingApple(){
   noStroke();
   for (let i = 0; i < appleY.length; i++) {
-    let appleX = (i+5.5)*150;
+    let appleX = (i+3)*230;
     image(apple, appleX, appleY[i], appleSize, appleSize);
     appleY[i] += 5;
     console.log(appleX);
@@ -182,7 +182,7 @@ function movingApple(){
 function appleshitsbuscket(){
   noStroke();
   for (let i = 0; i < appleY.length; i++) {
-    let appleX = (i+5.5)*150;
+    let appleX = (i+3)*230;
     if (appleX > basketX - (basketSize/2) && appleX < basketX + (basketSize/2) 
       && appleY[i] > basketY - (basketSize/2) && appleY[i] < basketY + (basketSize/2)) {
       score ++;
@@ -207,6 +207,7 @@ function mouseClicked(){
   let dr = dist (mouseX, mouseY, resetX, resetY);
   if ( dr < resetSize){
     restart();
+    lastTimeSwitched = millis();
   }
 }
 

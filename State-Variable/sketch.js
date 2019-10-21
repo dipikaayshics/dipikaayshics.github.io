@@ -38,7 +38,7 @@ let startY;
 let score = 0;
 let state = 'starting';
 let lastTimeSwitched = 0;
-let gametime = 90000;
+let gameTime = 90000;
 
 
 function preload(){                                  
@@ -51,7 +51,6 @@ function preload(){
     startImg = loadImage("assets/startimg.png");
     arrowSound = loadSound("assets/arrow.mp3");
     popSound = loadSound("assets/blast.mp3");
-
 }
 
 function setup() {
@@ -62,8 +61,8 @@ function setup() {
     startX = width - resetSize;
     startY = 100;
   
-    bowX = 200;
-    bowY = y + 150;
+    bowX = 50;
+    bowY = y;
     bowAngle = 0;
 }
 
@@ -97,14 +96,14 @@ function draw() {
 
  // state or screen while playing the game 
  function gamePlaying(){
-  // displayReset();
+  //displayReset();
   textSize(35);
-  text("SCORE  = " + score, 300, 40);
-  // //time();
+  text("SCORE =  " + score, 100, 60);
+  time();
   displayBow();
   flyingBalloon();
   fireArrow();
-  arrowTouchesballoon();
+  //arrowTouchesballoon();
   dead();
  }
 
@@ -146,9 +145,12 @@ function displayBow(){
 }
 
 // when mouse clicked fires arrow and creates a sound effects
-function mouseClicked() {
-  fire();
-  arrowSound.play();
+function keyPressed() {
+  if (keyCode === SHIFT){
+    fire();
+    arrowSound.play();
+  }
+  
 }
 
 // updating the arrow
@@ -161,7 +163,6 @@ function fire() {
     speed: 15,
   };
   arrows.push(thisArrow);
-  console.log(thisArrow);
 }
 
 //firing the arrow
@@ -191,40 +192,58 @@ function flyingBalloon(){
 
 
 // adds score and sends balloon back to the y pos if the arrow or the roof touches ballon
-function arrowTouchesballoon(){
-  noStroke();
+// function arrowTouchesballoon(){
+//   noStroke();
+//   for (let i = 0; i < balloonY.length; i++) {
+//     let balloonX = (i+7)*130;
+//     for (let thisArrow of arrows) {
+//       thisArrow.x += thisArrow.speed * cos(thisArrow.angle);
+//       thisArrow.y += thisArrow.speed * sin(thisArrow.angle);
+//       if (balloonX > thisArrow.x[j]- (thisArrow.arrowSize/2) && balloonX < thisArrow.x[j] + (thisArrow.arrowSize/2) 
+//         && balloonY[i] > thisArrow.y - (thisArrow.arrowSize/2) && balloonY[i] < thisArrow.y + (thisArrow.arrowSize/2)) {
+//         score ++;
+//         balloonY[i] = height;
+        
+//         // mysound effect each time balloon hits or tiuches the basket
+//         popSound.play();
+//       }
+//       if (balloonY[i] < height){
+//           balloonY[i] = height;
+//       }
+//   }
+// }
+// }
+function arrowTouchesballoon() {
   for (let i = 0; i < balloonY.length; i++) {
     let balloonX = (i+7)*130;
-    for (let thisArrow of arrows) {
+    for (let thisArrow of arrows) { 
       thisArrow.x += thisArrow.speed * cos(thisArrow.angle);
       thisArrow.y += thisArrow.speed * sin(thisArrow.angle);
-      if (balloonX > thisArrow.x - (thisArrow.arrowSize/2) && balloonX < thisArrow.x + (thisArrow.arrowSize/2) 
-        && balloonY[i] > thisArrow.y - (thisArrow.arrowSize/2) && balloonY[i] < thisArrow.y + (thisArrow.arrowSize/2)) {
+      hit = collodeRectRect (balloonX, balloonY[i], balloonSize, balloonSize, thisArrow.x[j], thisArrow.y[j], thisArrow.Size, thisArrow.Size);
+      if (hit === true){
         score ++;
         balloonY[i] = height;
-        
-        // mysound effect each time balloon hits or tiuches the basket
-        popSound.play();
-      }.
-      if (balloonY[i] < height){
-          balloonY[i] = height;
       }
+      if (balloonY[i] < height){
+        balloonY[i] = height;
+      }
+    }  
   }
-}
 }
 
 //if time is more than 90 sec, the game ends
 function dead(){
-  if (millis() > lastTimeSwitched + gametime){
+  if (millis() > lastTimeSwitched + gameTime){
     state = "end";
   }
 }
 
 // leftover time showing in the screen
 function time (){
-  if (millis){
-    text("Time = " + millis, 500, 40);
-  }
+  stroke(255, 20, 20);
+  strokeWeight(30);
+  showTime = map(millis(), lastTimeSwitched, lastTimeSwitched + gameTime, 0, width);
+  rect(0, 0, showTime, 0);
 }
 
 //restart
@@ -247,12 +266,13 @@ function restart(){
 }
 
 // restart everything if reset button clicked
-// function mouseClicked(){
-//   let disRestart = dist (mouseX, mouseY, resetX, resetY);
-//   if ( disRestart < resetSize){
-//     restart();
-//   }
-// }
+function mouseClicked(){
+  let disRestart = dist (mouseX, mouseY, resetX, resetY);
+  if ( disRestart < resetSize){
+    gameTime = millis();
+    restart();
+  }
+}
 
 
 // explaining the game

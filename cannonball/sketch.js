@@ -3,12 +3,17 @@ let bowY;
 let bowSize;
 let bowAngle;
 let arrows = [];
+let balloonX = [];
+let balloonY;
 let arrow;
 let bow;
+let balloon;
 
 function preload(){
   bow = loadImage("assets/bow.png");
   arrow = loadImage("assets/arrow.png");
+  balloon = loadImage("assets/balloon.png");
+
 }
 
 function setup() {
@@ -25,6 +30,7 @@ function draw() {
   
   displaybow();
   fireArrow();
+  flyballoon();
 }
 
 function displaybow() {
@@ -61,5 +67,12 @@ function fireArrow() {
     imageMode(CENTER);
     image(arrow, 0, 0, thisArrow.arrowSize, thisArrow.arrowSize);
     pop();
+  }
+}
+function flyballoon(){
+  for (i = 0;i < balloonX.length; i++){
+    balloonY = i * 200;
+    image(balloon, balloonX[i], balloonY, balloonSize, balloonSize);
+    balloonX[i] -= 5;
   }
 }
