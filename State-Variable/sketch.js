@@ -16,6 +16,7 @@ let startImg;
 let arrowSound;
 let popSound;
 
+
 let x;
 let y;
 
@@ -39,6 +40,7 @@ let score = 0;
 let state = 'starting';
 let lastTimeSwitched = 0;
 let gameTime = 90000;
+let hit = false;
 
 
 function preload(){                                  
@@ -103,7 +105,7 @@ function draw() {
   displayBow();
   flyingBalloon();
   fireArrow();
-  //arrowTouchesballoon();
+  arrowTouchesballoon();
   dead();
  }
 
@@ -146,16 +148,17 @@ function displayBow(){
 
 // when mouse clicked fires arrow and creates a sound effects
 function keyPressed() {
-  if (keyCode === SHIFT){
+  if (keyCode === 32){
     fire();
     arrowSound.play();
+    console.log(hit);
   }
   
 }
 
 // updating the arrow
 function fire() {
-  let thisArrow = {
+    let thisArrow = {
     x: bowX,
     y: bowY,
     angle: bowAngle,
@@ -167,14 +170,14 @@ function fire() {
 
 //firing the arrow
 function fireArrow() {
-  for (let thisArrow of arrows) { 
-    thisArrow.x += thisArrow.speed * cos(thisArrow.angle);
-    thisArrow.y += thisArrow.speed * sin(thisArrow.angle);
+  for (let j = 0; j < arrows.length; j++) { 
+    arrows[j].x += arrows[j].speed * cos(arrows[j].angle);
+    arrows[j].y += arrows[j].speed * sin(arrows[j].angle);
     push();
-    translate(thisArrow.x, thisArrow.y);
-    rotate(thisArrow.angle);
+    translate(arrows[j].x, arrows[j].y);
+    rotate(arrows[j].angle);
     imageMode(CENTER);
-    image(arrow, 0, 0, thisArrow.arrowSize, thisArrow.arrowSize);
+    image(arrow, 0, 0, arrows[j].arrowSize, arrows[j].arrowSize);
     pop();
   }
 }
@@ -191,38 +194,18 @@ function flyingBalloon(){
 }
 
 
-// adds score and sends balloon back to the y pos if the arrow or the roof touches ballon
-// function arrowTouchesballoon(){
-//   noStroke();
-//   for (let i = 0; i < balloonY.length; i++) {
-//     let balloonX = (i+7)*130;
-//     for (let thisArrow of arrows) {
-//       thisArrow.x += thisArrow.speed * cos(thisArrow.angle);
-//       thisArrow.y += thisArrow.speed * sin(thisArrow.angle);
-//       if (balloonX > thisArrow.x[j]- (thisArrow.arrowSize/2) && balloonX < thisArrow.x[j] + (thisArrow.arrowSize/2) 
-//         && balloonY[i] > thisArrow.y - (thisArrow.arrowSize/2) && balloonY[i] < thisArrow.y + (thisArrow.arrowSize/2)) {
-//         score ++;
-//         balloonY[i] = height;
-        
-//         // mysound effect each time balloon hits or tiuches the basket
-//         popSound.play();
-//       }
-//       if (balloonY[i] < height){
-//           balloonY[i] = height;
-//       }
-//   }
-// }
-// }
 function arrowTouchesballoon() {
-  for (let i = 0; i < balloonY.length; i++) {
+  for (let i = 0; i < arrows.length; i++) {
     let balloonX = (i+7)*130;
-    for (let thisArrow of arrows) { 
-      thisArrow.x += thisArrow.speed * cos(thisArrow.angle);
-      thisArrow.y += thisArrow.speed * sin(thisArrow.angle);
-      hit = collodeRectRect (balloonX, balloonY[i], balloonSize, balloonSize, thisArrow.x[j], thisArrow.y[j], thisArrow.Size, thisArrow.Size);
+    for (let j = 0; j < balloonY.length; j++) { 
+      arrows[j].x += arrows[j].speed * cos(arrows[j].angle);
+      arrows[j].y += arrows[j].speed * sin(arrows[j].angle);
+    
+      hit = collideRectRect (balloonX, balloonY[i], balloonSize, balloonSize, arrows[j].x, arrows[j].y, arrows[j].Size, arrows[j].Size);
       if (hit === true){
         score ++;
         balloonY[i] = height;
+        popSound.play();
       }
       if (balloonY[i] < height){
         balloonY[i] = height;
@@ -288,3 +271,27 @@ function instruction (){
   text("All you need to do is pop the balloon with the arrow! ", x, y - 130);
 }
 
+
+
+// adds score and sends balloon back to the y pos if the arrow or the roof touches ballon
+// function arrowTouchesballoon(){
+//   noStroke();
+//   for (let i = 0; i < balloonY.length; i++) {
+//     let balloonX = (i+7)*130;
+//     for (let arrows of arrows) {
+//       arrows.x += arrows.speed * cos(arrows.angle);
+//       arrows.y += arrows.speed * sin(arrows.angle);
+//       if (balloonX > arrows.x[j]- (arrows.arrowSize/2) && balloonX < arrows.x[j] + (arrows.arrowSize/2) 
+//         && balloonY[i] > arrows.y - (arrows.arrowSize/2) && balloonY[i] < arrows.y + (arrows.arrowSize/2)) {
+//         score ++;
+//         balloonY[i] = height;
+        
+//         // mysound effect each time balloon hits or tiuches the basket
+//         popSound.play();
+//       }
+//       if (balloonY[i] < height){
+//           balloonY[i] = height;
+//       }
+//   }
+// }
+// }
