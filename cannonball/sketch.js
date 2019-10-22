@@ -58,14 +58,14 @@ function fire() {
 }
 
 function fireArrow() {
-  for (let thisArrow of arrows) {
-    thisArrow.x += thisArrow.speed * cos(thisArrow.angle);
-    thisArrow.y += thisArrow.speed * sin(thisArrow.angle);
+  for (let i = arrows.length - 1; i > 0; i --) {
+    arrows[i].x += arrows[i].speed * cos(arrows[i].angle);
+    arrows[i].y += arrows[i].speed * sin(arrows[i].angle);
     push();
-    translate(thisArrow.x, thisArrow.y);
-    rotate(thisArrow.angle);
+    translate(arrows[i].x, arrows[i].y);
+    rotate(arrows[i].angle);
     imageMode(CENTER);
-    image(arrow, 0, 0, thisArrow.arrowSize, thisArrow.arrowSize);
+    image(arrow, 0, 0, arrows[i].arrowSize, arrows[i].arrowSize);
     pop();
   }
 }
@@ -75,4 +75,7 @@ function flyballoon(){
     image(balloon, balloonX[i], balloonY, balloonSize, balloonSize);
     balloonX[i] -= 5;
   }
+}
+function remove(){
+
 }

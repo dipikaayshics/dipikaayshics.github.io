@@ -12,7 +12,7 @@ function setup() {
 
 function draw() {
   background(0);
-  for (let i = 0; i < shapes.length; i++) {
+  for (let i =  shapes.length - 1; i < shapes.length; i++) {
     shapes[i].y += shapes[i].dy;
 
     noStroke();
@@ -30,7 +30,7 @@ function mousePressed() {
     color: color(random(255), random(255), random(255), random(255)),
     dy: random(-1, -20)
   };
-
+    
   shapes.push(someShape);
 }
 function remove(){

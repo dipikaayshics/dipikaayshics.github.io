@@ -206,8 +206,9 @@ function arrowTouchesballoon() {
         score ++;
         balloonY[j] = height;
         popSound.play();
+        // arrows.splice(i, 1);
       }
-      if (balloonY[j] < height){
+      else if (balloonY[j] < height){
         balloonY[j] = 200;
       }
     }  
