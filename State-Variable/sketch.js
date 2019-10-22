@@ -40,7 +40,7 @@ let score = 0;
 let state = 'starting';
 let lastTimeSwitched = 0;
 let gameTime = 90000;
-let hit = true;
+let hit = false;
 
 
 function preload(){                                  
@@ -105,7 +105,7 @@ function draw() {
   displayBow();
   flyingBalloon();
   fireArrow();
-  //arrowTouchesballoon();
+  arrowTouchesballoon();
   dead();
  }
 
@@ -151,9 +151,7 @@ function keyPressed() {
   if (keyCode === 32){
     fire();
     arrowSound.play();
-    console.log(hit);
   }
-  
 }
 
 // updating the arrow
@@ -187,7 +185,7 @@ function fireArrow() {
 function flyingBalloon(){
   noStroke();
   for (let i = 0; i < balloonY.length; i++) {
-    let balloonX = (i+7)*130;
+    let balloonX = (i+6)*130;
     image(balloon, balloonX, balloonY[i], balloonSize, balloonSize);
     balloonY[i] -= 5;
     // if (balloonY[i] < height){
@@ -198,11 +196,11 @@ function flyingBalloon(){
 
 function arrowTouchesballoon() {
   for (let i = 0; i < arrows.length; i++) {
-    let balloonX = (i+7)*130;
+    let balloonX = (i+6)*130;
     for (let j = 0; j < balloonY.length; j++) { 
       arrows[i].x += arrows[i].speed * cos(arrows[i].angle);
       arrows[i].y += arrows[i].speed * sin(arrows[i].angle);
-      
+      console.log(hit);
       hit = collideRectRect (balloonX, balloonY[j], balloonSize, balloonSize, arrows[i].x, arrows[i].y, arrows[i].Size, arrows[i].Size);
       if (hit === true){
         score ++;
