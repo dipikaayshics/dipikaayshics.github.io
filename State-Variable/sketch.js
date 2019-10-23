@@ -1,298 +1,202 @@
-// State Variables
-// Dipika Ayshi
-// started - october 6
-// completed - october 21
-// 
-// Extra for Experts:
-//
-
-let bgImg1;
-let bgImg2;
-let balloon;
-let arrow;
-let bow;
-let reset;
-let startImg;
-let arrowSound;
-let popSound;
-
-
-let x;
-let y;
-
-let bowX;
-let bowY;
-let bowSize = 280;
-let bowAngle;
-let arrows = [];
-let balloonSize = 90;
-let balloonY = [800, 200, 580, 0, 100];
-let balloonX;
-
-let resetSize = 120;
-let startSize = 150;
-let resetX = 120;
-let resetY = 120;
-let startX;
-let startY;
-
-let score = 0;
-let state = 'starting';
-let lastTimeSwitched = 0;
-let gameTime = 90000;
-let hit = false;
-
-
-function preload(){                                  
-    bgImg1 = loadImage("assets/bgImg1.jpg");
-    bgImg2 = loadImage("assets/bgImg2.png");
-    bow = loadImage("assets/bow.png");
-    arrow = loadImage("assets/arrow.png");
-    balloon = loadImage("assets/balloon.png");
-    reset = loadImage("assets/reset.png");
-    startImg = loadImage("assets/startimg.png");
-    arrowSound = loadSound("assets/arrow.mp3");
-    popSound = loadSound("assets/blast.mp3");
-}
+// Project Title
+// dipika
+// sept 9
+let x, y;
+let dx;
+let dy;
+let radius = 100;
+let rectSize = 100;
+let state = "menu";
+speed = 0;
 
 function setup() {
-    createCanvas(windowWidth, windowHeight);
-    x = width/2;
-    y = height/2;
-    
-    startX = width - resetSize;
-    startY = 100;
+  createCanvas(windowWidth, windowHeight);
   
-    bowX = 50;
-    bowY = y;
-    bowAngle = 0;
+  x = width/2;
+  y = height/2;
+  dx = random(-15, 15);
+  dy = random(-15, 15);
 }
 
-//draw all the functions
 function draw() {
+  background(255);
 
-  if (state === "starting"){
-    imageMode(CORNER);
-    background(bgImg1);
-    displayStart();
-    showScreen();
+  if (state === "menu") {
+    showMenu();
   }
-  else if (state === "playing"){
-    imageMode(CORNER);
-    background(bgImg2);
-    gamePlaying();
+  else if (state === "snow") {
+    displaysnow();
+    displayHome();
   }
-  else if (state == "end"){
-    imageMode(CORNER);
-    background(bgImg1);
-    displayStart();
-    endScreen();
-  }
-}
-
-// state or screen of beginning of the game
- function showScreen(){
-  instruction();
-  restart();
- }
-
- // state or screen while playing the game 
- function gamePlaying(){
-  //displayReset();
-  textSize(35);
-  text("SCORE =  " + score, 100, 60);
-  time();
-  displayBow();
-  flyingBalloon();
-  fireArrow();
-  arrowTouchesballoon();
-  dead();
- }
-
- //the state or screen at the end of the game. Showing score and instruction
- function endScreen(){
-  textAlign(CENTER);
-  fill (0);
-  textSize(50);
-  text ("Game Over!!", x, y);
-  text ("SCORE = " + score, x, y + 70);
-  textSize(45);
-  fill(255);
-  text ("Click on the 'start button' to go back to the menu page", x , y + 185);
-}
-
-
-//showup reset button
-function displayReset(){
-  noStroke();
-  imageMode(CENTER);
-  image(reset, resetX , resetY, resetSize, resetSize);
-}
-
-//showup start button
-function displayStart(){
-  noStroke();
-  imageMode(CENTER);
-  image(startImg,  startX, startY, startSize, startSize);
-}
-
-// showup the bow
-function displayBow(){
-  push(); 
-  translate(bowX, bowY);
-  bowAngle = atan2(mouseY - bowY, mouseX - bowX);
-  rotate(bowAngle);
-  image(bow, 0, -bowSize/2, bowSize, bowSize);
-  pop(); 
-}
-
-// when mouse clicked fires arrow and creates a sound effects
-function keyPressed() {
-  if (keyCode === 32){
-    fire();
-    arrowSound.play();
-  }
-}
-
-// updating the arrow
-function fire() {
-    let thisArrow = {
-    x: bowX,
-    y: bowY,
-    angle: bowAngle,
-    arrowSize: bowSize - 30,
-    speed: 15,
-  };
-  arrows.push(thisArrow);
-}
-
-//firing the arrow
-function fireArrow() {
-  for (let j = 0; j < arrows.length; j++) { 
-    arrows[j].x += arrows[j].speed * cos(arrows[j].angle);
-    arrows[j].y += arrows[j].speed * sin(arrows[j].angle);
-    push();
-    translate(arrows[j].x, arrows[j].y);
-    rotate(arrows[j].angle);
-    imageMode(CENTER);
-    image(arrow, 0, 0, arrows[j].arrowSize, arrows[j].arrowSize);
-    pop();
+  else if (state === "fan"){
+    displayFan();
   }
 }
 
 
-//balloon flying
-function flyingBalloon(){
-  noStroke();
-  for (let i = 0; i < balloonY.length; i++) {
-    let balloonX = (i+6)*130;
-    image(balloon, balloonX, balloonY[i], balloonSize, balloonSize);
-    balloonY[i] -= 5;
-    // if (balloonY[i] < height){
-    //   balloonY[i] = 200;
-    // }
-  }
-}
-
-function arrowTouchesballoon() {
-  for (let i = 0; i < arrows.length; i++) {
-    let balloonX = (i+6)*130;
-    for (let j = 0; j < balloonY.length; j++) { 
-      arrows[i].x += arrows[i].speed * cos(arrows[i].angle);
-      arrows[i].y += arrows[i].speed * sin(arrows[i].angle);
-      console.log(hit);
-      hit = collideRectRect (balloonX, balloonY[j], balloonSize, balloonSize, arrows[i].x, arrows[i].y, arrows[i].Size, arrows[i].Size);
-      if (hit === true){
-        score ++;
-        balloonY[j] = height;
-        popSound.play();
-        // arrows.splice(i, 1);
-      }
-      else if (balloonY[j] < height){
-        balloonY[j] = 200;
-      }
-    }  
-  }
-}
-
-//if time is more than 90 sec, the game ends
-function dead(){
-  if (millis() > lastTimeSwitched + gameTime){
-    state = "end";
-  }
-}
-
-// leftover time showing in the screen
-function time (){
-  stroke(255, 20, 20);
-  strokeWeight(30);
-  showTime = map(millis(), lastTimeSwitched, lastTimeSwitched + gameTime, 0, width);
-  rect(0, 0, showTime, 0);
-}
-
-//restart
-function restart(){
-  score = 0;
-}
-
- //changes the states if mouse clicks the start button
- function mousePressed(){
-  let disStart = dist (mouseX, mouseY, startX, startY);
-  if (disStart < startSize) { 
-    lastTimeSwitched = millis();
-    if(state=== "starting"){
-      state = "playing";
-    }
-    else if(state === "end"){
-      state = "starting"; 
-    }
-  }
-}
-
-// restart everything if reset button clicked
-function mouseClicked(){
-  let disRestart = dist (mouseX, mouseY, resetX, resetY);
-  if ( disRestart < resetSize){
-    gameTime = millis();
-    restart();
-  }
-}
-
-
-// explaining the game
-function instruction (){
-  textSize(42);
+function showMenu() {
+  // show rain button
+  rectMode(CENTER);
   fill(0);
-  textAlign(CENTER);
-  text(" Click on the 'start button' to start & 'reset button' to reset the game!! ", x, y+ 50);
-  textSize(40);
-  text("Use the 'mouse' to rotate the BOW and 'space' key to shoot the arrow! ", x, y - 20);
-  textSize(38);
-  text("Pop as many balloons as you can in 90 seconds! ", x, y - 80);
-  text("All you need to do is pop the balloon with the arrow! ", x, y - 130);
+  textSize(30);
+  text("DOES YOUR HEAD HURTS, BECAUSE OF ALL THE STRESSES IN LIFE?", 750, 30 );
+  text("MAYBE COOL AIR WILL CALM YOU DOWN, EVEN BY VISUALLY SEEING IT!!", 750, 70);
+  text("CHECK IT OUT! YOU CAN VISUALLY SEE SNOWFALLING VIEW AND MENTALLY FEEL THE COLD AIR!", 720, 115);
+  text("OR CHOOSE THE ARTIFICIAL WAY TO GET SOME COOL AIR FROM A SUSPICIUOS FAN!", 700, 155);
+
+  fill(255, 0, 0, 125);
+  rect(width/2, height/2 - 100, 400, 150);
+  textAlign(CENTER, CENTER);
+  textSize(50);
+  fill(0);
+  text("Fan", width/2, height/2 - 100);
+
+  // show snow button
+  fill(255, 0, 0, 125);
+  rect(width/2, height/2 + 100, 400, 150);
+  fill(0);
+  text("Snow", width/2, height/2 + 100);
+  checkIfButtonClicked();
+}
+
+function checkIfButtonClicked() {
+  if (mouseIsPressed) {
+    // check for fan button
+    if (mouseX > width/2 - 200 && mouseX < width/2 + 200 &&
+        mouseY > height/2 - 100 - 75 && mouseY < height/2 - 100 + 75) {
+          state = "fan";
+    }
+
+    // check for snow button
+    if (mouseX > width/2 - 200 && mouseX < width/2 + 200 &&
+      mouseY > height/2 + 100 - 75 && mouseY < height/2 + 100 + 75) {
+        state = "snow";
+    }
+  }
 }
 
 
+function windowResized() {
+  setup();
+}
 
-// adds score and sends balloon back to the y pos if the arrow or the roof touches ballon
-// function arrowTouchesballoon(){
-//   noStroke();
-//   for (let i = 0; i < balloonY.length; i++) {
-//     let balloonX = (i+7)*130;
-//     for (let arrows of arrows) {
-//       arrows.x += arrows.speed * cos(arrows.angle);
-//       arrows.y += arrows.speed * sin(arrows.angle);
-//       if (balloonX > arrows.x[j]- (arrows.arrowSize/2) && balloonX < arrows.x[j] + (arrows.arrowSize/2) 
-//         && balloonY[i] > arrows.y - (arrows.arrowSize/2) && balloonY[i] < arrows.y + (arrows.arrowSize/2)) {
-//         score ++;
-//         balloonY[i] = height;
-        
-//         // mysound effect each time balloon hits or tiuches the basket
-//         popSound.play();
-//       }
-//       if (balloonY[i] < height){
-//           balloonY[i] = height;
-//       }
+function displayFan(){
+  background(0);
+  stand();
+  fanUp();
+  
+}
+
+function fanUp(){
+  speed+= 7;
+  translate (300, 300);
+  rotate(speed);
+  fill(255);
+  rect(0, 0, 250, 50);
+  rectMode(CENTER);
+  noFill();
+  stroke(255);
+  stroke('#fae');
+  strokeWeight(7);
+  ellipse(0, 0, 300, 300);
+  
+}
+function stand(){
+  stroke('#fae');
+  fill (120, 135, 220);
+  rect (300, 510, 80, 130);
+  rect (300, 490+80, 250, 50);
+  rect(300, 390, 30, 110);
+  ellipse(300, 300, 90, 90);
+  strokeWeight(3);
+  line(300, 150, 300, 450);
+  line(150, 300, 450, 300);
+  line (193, 399, 412, 200);
+  line (412, 399, 193, 200);
+}
+
+// let snow = [];
+// let snowing = true;
+
+
+// function setup() {
+//   createCanvas(600, 600);
+//   //frameRate(60);
+  
+//   for (i = 0; i < 500; i++) {
+//     snow[i] = new Snow(random(0, 550), random(0, -3000));
 //   }
 // }
+
+// function draw() {
+//   background(0);
+
+//   ground();
+//   //Snow();
+//   //console.log(mouseX, mouseY);
+
+//   //Check if it's snowing or sunny
+//   if (snowing == true) {
+//     //background(100);
+//     for (i = 0; i < snow.length; i++) {
+//       snow[i].dropSnow();
+//       snow[i].splash();
+//     }
+
+//   }
 // }
+
+// function ground() {
+//   //noStroke();
+//   fill(170, 150, 146, 240);
+//   rect(0, 530, 600, 530);
+// }
+
+// function Snow(x, y) {
+//   this.x = x;
+//   this.y = y;
+//   //this.gravity = 9.8;
+//   this.length = 15;
+//   this.r = 20;
+//   this.opacity = 200;
+
+
+//   this.dropSnow = function() {
+//     noStroke();
+//     fill(255);
+//     //rect(this.x, this.y,3,15);
+//     ellipse(this.x, this.y,this.length, this.length);
+//     this.y = this.y + 6 //+ frameCount/60;
+//     if (this.y > 540) {
+//       this.length = this.length - 5;
+//       //this.y= random(0,-100);
+//     }
+//     if (this.length < 0) {
+//       this.length = 0;
+//     }
+//   }
+
+//   this.splash = function() {
+//     strokeWeight(2);
+//     stroke(245, 200);
+//     stroke(245, this.opacity);
+//     if (this.y > 540) {
+//       fill(255);
+//       ellipse(this.x, 550, this.r * 2, this.r / 2);
+//       this.r++;
+//       this.opacity = this.opacity - 10;
+
+//       //keep the snow dropping
+//       if (this.opacity < 0) {
+//         this.y = random(0, -100);
+//         this.length = 15;
+//         this.r = 0;
+//         this.opacity = 200;
+//       }
+//     }
+//   }
+// }
+
+  
+  
+  
