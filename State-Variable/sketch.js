@@ -1,49 +1,77 @@
-// Project Title
-// dipika
-// sept 9
+// State Variables
+// Dipika Ayshi
+// started - october 23
+// completed - october 24
+// 
+// Extra for Experts:
+// I added translate and rotate in this prject by creating the fan
+
+
+//variables
 let x, y;
 let dx;
 let dy;
 let radius = 100;
 let rectSize = 100;
 let state = "menu";
-speed = 0;
+let speed = 0;
+let fanSound;
+let windSound;
+let leafY = [350, 100, 500, 800];
+let leafX;
+let leafSize = 40;
+let tree;
 
+//laoding images and sound
+function preload(){
+  fanSound = loadSound("assets/fan.wav");
+  windSound = loadSound("assets/wind.wav");
+  tree = loadImage("assets/tree.png");
+  leaf = loadImage("assets/leaf.png");
+}
+
+//creating canvas
 function setup() {
   createCanvas(windowWidth, windowHeight);
   
   x = width/2;
   y = height/2;
-  dx = random(-15, 15);
-  dy = random(-15, 15);
+  
 }
 
+// draw all the function
 function draw() {
   background(255);
-
+  
+  //menu screen
   if (state === "menu") {
     showMenu();
   }
-  else if (state === "snow") {
-    displaysnow();
-    displayHome();
+
+  // the natural wind scene
+  else if (state === "leaf") {
+    displayleaf();
   }
+
+  // the fan scene
   else if (state === "fan"){
     displayFan();
   }
 }
 
-
+// the whole menu state
 function showMenu() {
-  // show rain button
+  // show all the texts informations
   rectMode(CENTER);
   fill(0);
   textSize(30);
-  text("DOES YOUR HEAD HURTS, BECAUSE OF ALL THE STRESSES IN LIFE?", 750, 30 );
-  text("MAYBE COOL AIR WILL CALM YOU DOWN, EVEN BY VISUALLY SEEING IT!!", 750, 70);
-  text("CHECK IT OUT! YOU CAN VISUALLY SEE SNOWFALLING VIEW AND MENTALLY FEEL THE COLD AIR!", 720, 115);
-  text("OR CHOOSE THE ARTIFICIAL WAY TO GET SOME COOL AIR FROM A SUSPICIUOS FAN!", 700, 155);
-
+  text("DOES YOUR HEAD HURTS, BECAUSE OF ALL THE STRESS IN LIFE?", 750, 30 );
+  text("MAYBE getting some AIR WILL CALM YOU DOWN! EVEN MENTALLY", 700, 70);
+  text("EVEN BY HEARING THE SOUND AND VISUALIZAing the scenes you can feel relaxed!!!", 720, 115);
+  text(" OR!!!! YOU CAN VISUALLY SEE A WIND BLOWING VIEW AND MENTALLY FEEL THE COLD AIR!", 720, height/2 + 250);
+  text("CHOOSE THE ARTIFICIAL WAY TO GET SOME COOL AIR FROM A SUSPICIUOS FAN!", 700, 175);
+  
+  //show the fan button
   fill(255, 0, 0, 125);
   rect(width/2, height/2 - 100, 400, 150);
   textAlign(CENTER, CENTER);
@@ -51,14 +79,15 @@ function showMenu() {
   fill(0);
   text("Fan", width/2, height/2 - 100);
 
-  // show snow button
-  fill(255, 0, 0, 125);
+  // show natural wind button
+  fill(0, 255, 255);
   rect(width/2, height/2 + 100, 400, 150);
   fill(0);
-  text("Snow", width/2, height/2 + 100);
+  text("Natural Wind", width/2, height/2 + 100);
   checkIfButtonClicked();
 }
 
+//cheking if any of the options were clicked with the mouse and change state
 function checkIfButtonClicked() {
   if (mouseIsPressed) {
     // check for fan button
@@ -67,26 +96,38 @@ function checkIfButtonClicked() {
           state = "fan";
     }
 
-    // check for snow button
+    // check for natural wind button 
     if (mouseX > width/2 - 200 && mouseX < width/2 + 200 &&
       mouseY > height/2 + 100 - 75 && mouseY < height/2 + 100 + 75) {
-        state = "snow";
+        state = "leaf";
     }
   }
 }
 
-
+//resizing window
 function windowResized() {
   setup();
 }
 
+//the whole whole show up of and all functions of the fan
 function displayFan(){
   background(0);
+  fill(255);
+  textSize(30);
+  text("PRESS SPACE for sound ", (width- 200), 50);
   stand();
   fanUp();
   
 }
 
+//if space key is pressed play the fan sound effect
+function keyPressed() {
+  if (keyCode === 32){
+    fanSound.play();
+  }
+}
+
+// drawing the upper part of the fan
 function fanUp(){
   speed+= 7;
   translate (300, 300);
@@ -101,6 +142,8 @@ function fanUp(){
   ellipse(0, 0, 300, 300);
   
 }
+
+//drawing the stand of the fan and the some of the upper part, like lines
 function stand(){
   stroke('#fae');
   fill (120, 135, 220);
@@ -115,87 +158,35 @@ function stand(){
   line (412, 399, 193, 200);
 }
 
-// let snow = [];
-// let snowing = true;
+// the whole display of natural wind blowing scene
+function displayleaf(){
+  background(20, 130, 220);
+  leafFalling();
+  displayTree();
 
+}
 
-// function setup() {
-//   createCanvas(600, 600);
-//   //frameRate(60);
-  
-//   for (i = 0; i < 500; i++) {
-//     snow[i] = new Snow(random(0, 550), random(0, -3000));
-//   }
-// }
+//leaves falling
+function leafFalling(){
+  noStroke();
+  for (let i = 0; i < leafY.length; i++) {
+    let leafX = (i+4)* random(100, 150);
+    image(leaf, leafX, leafY[i], leafSize, leafSize);
+    leafY[i] += 3.5;
+    if (leafY[i] > height){
+      leafY[i] = 200;
+      windSound.play();
+  }
+    
+  }
+}
 
-// function draw() {
-//   background(0);
-
-//   ground();
-//   //Snow();
-//   //console.log(mouseX, mouseY);
-
-//   //Check if it's snowing or sunny
-//   if (snowing == true) {
-//     //background(100);
-//     for (i = 0; i < snow.length; i++) {
-//       snow[i].dropSnow();
-//       snow[i].splash();
-//     }
-
-//   }
-// }
-
-// function ground() {
-//   //noStroke();
-//   fill(170, 150, 146, 240);
-//   rect(0, 530, 600, 530);
-// }
-
-// function Snow(x, y) {
-//   this.x = x;
-//   this.y = y;
-//   //this.gravity = 9.8;
-//   this.length = 15;
-//   this.r = 20;
-//   this.opacity = 200;
-
-
-//   this.dropSnow = function() {
-//     noStroke();
-//     fill(255);
-//     //rect(this.x, this.y,3,15);
-//     ellipse(this.x, this.y,this.length, this.length);
-//     this.y = this.y + 6 //+ frameCount/60;
-//     if (this.y > 540) {
-//       this.length = this.length - 5;
-//       //this.y= random(0,-100);
-//     }
-//     if (this.length < 0) {
-//       this.length = 0;
-//     }
-//   }
-
-//   this.splash = function() {
-//     strokeWeight(2);
-//     stroke(245, 200);
-//     stroke(245, this.opacity);
-//     if (this.y > 540) {
-//       fill(255);
-//       ellipse(this.x, 550, this.r * 2, this.r / 2);
-//       this.r++;
-//       this.opacity = this.opacity - 10;
-
-//       //keep the snow dropping
-//       if (this.opacity < 0) {
-//         this.y = random(0, -100);
-//         this.length = 15;
-//         this.r = 0;
-//         this.opacity = 200;
-//       }
-//     }
-//   }
-// }
+//showup the tree
+function displayTree(){
+  noStroke();
+  imageMode(CENTER);
+  image(tree, x, y, 800, 850);
+}
 
   
   

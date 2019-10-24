@@ -23,7 +23,7 @@ let resetX = 100;
 let resetY = 150;
 let startX;
 let startY;
-let appleY = [350, 100, 10, 500, 800];
+let appleY = [350, 100, 500, 800];
 let appleX;
 
 let basketY = 700;
@@ -77,14 +77,14 @@ function draw() {
 
  // state or screen while playing the game 
  function gameplaying(){
-  displayreset();
+  //displayreset();
   displayTree();
-  text("SCORE  = " + score, 100, 30)
+  //text("SCORE  = " + score, 100, 30)
   //time();
-  movingBasket();
+  //movingBasket();
   movingApple();
-  appleshitsbuscket();
-  timelimit();
+  //appleshitsbuscket();
+  //timelimit();
  }
 
  //the state or screen at the end of the game
@@ -171,10 +171,13 @@ function movingBasket() {
 function movingApple(){
   noStroke();
   for (let i = 0; i < appleY.length; i++) {
-    let appleX = (i+3)*230;
+    let appleX = (i+4)* random(100, 150);
     image(apple, appleX, appleY[i], appleSize, appleSize);
-    appleY[i] += 5;
-    console.log(appleX);
+    appleY[i] += 3.5;
+    if (appleY[i] > height){
+      appleY[i] = 200;
+  }
+    
   }
 }
 
@@ -182,7 +185,7 @@ function movingApple(){
 function appleshitsbuscket(){
   noStroke();
   for (let i = 0; i < appleY.length; i++) {
-    let appleX = (i+3)*230;
+    let appleX = (i+2)*230;
     if (appleX > basketX - (basketSize/2) && appleX < basketX + (basketSize/2) 
       && appleY[i] > basketY - (basketSize/2) && appleY[i] < basketY + (basketSize/2)) {
       score ++;
