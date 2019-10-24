@@ -6,50 +6,45 @@
 // - describe what you did to take this project "above and beyond"
 let grid = [];
 
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  grid = create2dArray(20, 20);
 }
 
 function draw() {
-  background(0);
- 
+  background(220);
+  displayGrid(grid);
 }
-function blah(thegrid){
-  for (let n =0; n< thegrid[0].length; n++){
-    for (let x =0; x< thegrid[0].length; x++){
-      if (thegrid = [n], [x] = 0){
+
+function displayGrid(theGrid) {
+  //assumes the grid is a square...
+  for (let y = 0; y < theGrid[0].length; y++) {
+    for (let x = 0; x < theGrid[0].length; x++) {
+      if (theGrid[y][x] === 0) {
         fill(255);
       }
       else {
         fill(0);
       }
-      let cellsize = width/thegrid[0].length;
-      rect(x* cellsize, n*cellsize, cellsize, cellsize);
-  
+      let cellSize = width / theGrid[0].length;
+      rect(x * cellSize, y * cellSize, cellSize, cellSize);
     }
-  
-
-
   }
-
 }
 
-
-function craete2d(cols, rows) {
-  let somearray = {};
-  for (let i = 0; i< cols; i++){
-    somearray.push([]);
-    for (j = o; j< rows; j++){
-      if (random(100< 50){
-        somearray[i].push(1);
-      
-      
+function create2dArray(cols, rows) {
+  let someArray = [];
+  for (let i=0; i<cols; i++) {
+    someArray.push([]);
+    for (let j=0; j<rows; j++) {
+      if (random(100) < 50) {
+        someArray[i].push(1);
       }
-
+      else {
+        someArray[i].push(0);
       }
+    }
   }
-  
+  return someArray;
 }
-return somearray;
-
-
