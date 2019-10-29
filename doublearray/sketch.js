@@ -1,12 +1,7 @@
-// Project Title
-// dipika
-// Date
-//
-// Extra for Experts:
-// - describe what you did to take this project "above and beyond"
 let grid;
-let rows = 30;
-let cols = 30;
+let rows = 20;
+let cols = 20;
+let autoPlay = false;
 
 function setup() {
   if (windowWidth > windowHeight) {
@@ -21,6 +16,11 @@ function setup() {
 function draw() {
   background(220);
   displayGrid(grid, rows, cols);
+  if (autoPlay) {
+    if (frameCount % 5=== 0) {
+      update();
+    }
+  }
 }
 
 function windowResized() {
@@ -41,6 +41,9 @@ function keyTyped() {
   }
   if (key === " ") {
     update();
+  }
+  if (key === "a") {
+    autoPlay = !autoPlay;
   }
 }
 
@@ -121,7 +124,7 @@ function displayGrid(grid, rows, cols) {
       else {
         fill(0);
       }
-      rect(x*cellSize, y*cellSize, cellSize, cellSize);
+      ellipse(x*cellSize, y*cellSize, cellSize, cellSize);
     }
   }
 }
