@@ -362,6 +362,7 @@ function createEmptyGrid() {
     }
   }
   return emptyGrid;
+  
 }
 
 function displayGrid(grid, rows, cols) {
