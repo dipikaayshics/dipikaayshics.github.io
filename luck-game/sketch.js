@@ -7,7 +7,8 @@ let currentlySelectedCells = [];
 const EMPTY = 255;
 let currentlyAnimating = false;
 let state = "gameplay";
-let randomnumbers = [100, 100, 300, 400, 447, 980,450, 1000]
+let randomnumbers = [100, 100, 300, 400, 447, 980,450, 1000];
+
 
 function setup() {
   if (windowWidth > windowHeight) {
@@ -29,6 +30,15 @@ function draw() {
   }
 }
  
+
+function createCompletedGrid() {
+  let colorList = ["blue", "red", "green", "yellow", "orange", "black", "purple", "brown"];
+  let pairs = [];
+  for (let thisColor of colorList) {
+    pairs.push(thisColor);
+    pairs.push(thisColor);
+  }
+  shuffle(pairs, true);
 
 function windowResized() {
   if (windowWidth > windowHeight) {

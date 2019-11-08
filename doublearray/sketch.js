@@ -72,6 +72,11 @@ function createEmptyGrid() {
   return emptyGrid;
 }
 
+function move(){
+  for(let i = 0; i< bullets.length; i++){
+    dip.move += 0;
+  } 
+}
 function update() {
   let nextTurn = createEmptyGrid();
 
