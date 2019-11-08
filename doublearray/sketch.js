@@ -375,14 +375,11 @@ function mousePressed() {
       currentlySelectedCells.push(thisCell);
     }
     if (currentlySelectedCells.length === 2) {
-      //is it a pair?
+    
       let firstColor = completedGrid[currentlySelectedCells[0].y][currentlySelectedCells[0].x];
       let secondColor = completedGrid[currentlySelectedCells[1].y][currentlySelectedCells[1].x];
       if (firstColor === secondColor) {
-        //update grid to contain this pair
-        // grid[currentlySelectedCells[0].y][currentlySelectedCells[0].x] = completedGrid[currentlySelectedCells[0].y][currentlySelectedCells[0].x];
-        // grid[currentlySelectedCells[1].y][currentlySelectedCells[1].x] = completedGrid[currentlySelectedCells[1].y][currentlySelectedCells[1].x];
-        currentlySelectedCells = [];
+      currentlySelectedCells = [];
         if (gameIsWon()) {
           state = "win";
         }
